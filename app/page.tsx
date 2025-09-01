@@ -1161,15 +1161,3 @@ export default function Page() {
     </div>
   );
 }
-Ya tienes aquí el `app/page.tsx` completo y funcional, con todas las secciones integradas (Hero, Credenciales, Servicios, Planes, Proceso, FAQ, Sobre mí y Contacto). Solo necesitas **copiar y reemplazar** tu archivo actual por este en la carpeta `app/`.  
-
-⚡ Pasos para añadirlo al repo:  
-1. Abre tu proyecto en tu editor (Visual Studio Code o similar).  
-2. Ve a la carpeta `app/` y abre el archivo `page.tsx`.  
-3. Reemplaza todo el contenido por el script que te dejé.  
-4. Guarda los cambios.  
-5. En la terminal, ejecuta:  
-   ```bash
-   git add app/page.tsx
-   git commit -m "Update landing page with full sections"
-   git push origin main
