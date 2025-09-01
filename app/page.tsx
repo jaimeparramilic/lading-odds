@@ -378,8 +378,7 @@ export default function Page() {
                   <option>10M+ COP</option>
                 </select>
                 <Textarea placeholder="Cuéntanos brevemente tu objetivo principal" rows={4} />
-                <Button type="submit
-                <Textarea placeholder="Cuéntanos brevemente tu objetivo principal" rows={4} />
+            
                 <Button type="submit" className="gap-2">
                   Enviar <MessageSquare className="h-4 w-4" />
                 </Button>
