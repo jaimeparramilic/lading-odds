@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Estilos globales adicionales (opcional) --- */
+
+/* Fuente y reset básico */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background-color: #ffffff;
+  color: #111827; /* gris casi negro */
+}
+
+/* Ajuste para links */
+a {
+  @apply text-blue-600 hover:underline;
+}
+
+/* Para pills y badges reutilizados */
+span[role="pill"] {
+  @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium;
+}
