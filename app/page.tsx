@@ -103,6 +103,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-neutral-50 text-neutral-900">
 
+      {/* Hero */}
       <Section className="pt-16 pb-8">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -160,6 +161,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Credenciales */}
       <Section id="credentials" className="py-12">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight">Experiencia que respalda</h2>
@@ -176,6 +178,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Servicios */}
       <Section id="services" className="py-12">
         <div className="grid md:grid-cols-3 gap-6">
           <Card>
@@ -220,6 +223,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Planes */}
       <Section id="plans" className="py-12">
         <div className="max-w-3xl">
           <h2 className="text-3xl font-bold tracking-tight">Planes y paquetes</h2>
@@ -253,6 +257,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Proceso */}
       <Section id="process" className="py-12">
         <div className="grid md:grid-cols-3 gap-6">
           <Card>
@@ -282,6 +287,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* FAQ */}
       <Section id="faq" className="py-12">
         <div className="max-w-3xl">
           <h2 className="text-3xl font-bold tracking-tight">Preguntas frecuentes</h2>
@@ -308,6 +314,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Sobre mí */}
       <Section id="about" className="py-12">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold tracking-tight">Sobre mí</h2>
@@ -317,6 +324,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* Contacto */}
       <Section id="contact" className="py-12">
         <div className="grid lg:grid-cols-2 gap-10 items-start">
           <div>
