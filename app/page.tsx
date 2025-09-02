@@ -1,14 +1,13 @@
 'use client';
 
-
-import Hero from './components/landing/Hero';
-import Credentials from './components/landing/Credentials';
-import Services from './components/landing/Services';
-import Plans from './components/landing/Plans';
-import Process from './components/landing/Process';
-import FAQ from './components/landing/FAQ';
-import About from './components/landing/About';
-import Contact from './components/landing/Contact';
+import Hero from '../app/components/landing/Hero';
+import Credentials from '../app/components/landing/Credentials';
+import Services from '../app/components/landing/Services';
+import Plans from '../app/components/landing/Plans';
+import Process from '../app/components/landing/Process';
+import FAQ from '../app/components/landing/FAQ';
+import About from '../app/components/landing/About';
+import Contact from '../app/components/landing/Contact';
 
 export default function Page() {
   return (
