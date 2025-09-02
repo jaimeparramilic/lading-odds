@@ -1,7 +1,7 @@
 import React from 'react';
 import { Section } from './Section';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import { Button } from '../../../components/ui/button';
 import { Check } from 'lucide-react';
 import { Pill } from './Pill';
 
