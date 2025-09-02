@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Section } from './Section';
 
 export default function Credentials() {
@@ -10,12 +11,14 @@ export default function Credentials() {
           Más de 13 años liderando audiencias, performance y analítica para marcas globales en LATAM, EE.UU. y Canadá.
         </p>
       </div>
+
       <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 items-center justify-items-center opacity-80">
-        <img src="/logos/amazon.svg" alt="Amazon" className="h-10" />
-        <img src="/logos/bmw.svg" alt="BMW" className="h-10" />
-        <img src="/logos/cvs.svg" alt="CVS" className="h-10" />
-        <img src="/logos/nintendo.svg" alt="Nintendo" className="h-10" />
+        <Image src="/logos/amazon.png" alt="Amazon" width={100} height={40} className="h-10 w-auto" />
+        <Image src="/logos/bmw.png" alt="BMW" width={100} height={40} className="h-10 w-auto" />
+        <Image src="/logos/cvs.png" alt="CVS" width={100} height={40} className="h-10 w-auto" />
+        <Image src="/logos/nintendo.png" alt="Nintendo" width={100} height={40} className="h-10 w-auto" />
       </div>
+
       <div className="mt-10 bg-neutral-50 border rounded-xl p-6 shadow-sm">
         <p className="italic text-neutral-700">
           “Durante la pandemia, asesoramos la creación de un modelo de monetización digital para Jorge Enrique Abello,
@@ -25,3 +28,4 @@ export default function Credentials() {
     </Section>
   );
 }
+
