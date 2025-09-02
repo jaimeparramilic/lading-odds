@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section } from './Section';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Rocket, LineChart, Workflow } from 'lucide-react';
 
 export default function Process() {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Section } from './Section';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+import { Input } from '../../../components/ui/input';
+import { Textarea } from '../../../components/ui/textarea';
+import { Button } from '../../../components/ui/button';
 import { Phone, Mail, MessageSquare } from 'lucide-react';
 import { Pill } from './Pill';
 

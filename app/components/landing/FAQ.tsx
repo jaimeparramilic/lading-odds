@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section } from './Section';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 
 export default function FAQ() {
   return (
