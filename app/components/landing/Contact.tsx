@@ -17,8 +17,8 @@ export default function Contact() {
             Cuéntanos de tu negocio y armamos un diagnóstico gratuito de 20 minutos. Te proponemos el plan con mayor impacto de corto plazo.
           </p>
           <div className="mt-6 grid sm:grid-cols-2 gap-3 text-sm">
-            <Pill><Phone className="h-3.5 w-3.5 mr-1" /> WhatsApp: +57 000 000 0000</Pill>
-            <Pill><Mail className="h-3.5 w-3.5 mr-1" /> hola@odds.la</Pill>
+            <Pill><Phone className="h-3.5 w-3.5 mr-1" /> WhatsApp: +57 3134587775</Pill>
+            <Pill><Mail className="h-3.5 w-3.5 mr-1" /> jaimeparramilic@gmail.com</Pill>
           </div>
         </div>
         <Card className="shadow-sm">
