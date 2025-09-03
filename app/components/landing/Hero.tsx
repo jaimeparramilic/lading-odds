@@ -24,16 +24,35 @@ export default function Hero() {
   return (
     <Section className="pt-16 pb-8">
       <div className="grid lg:grid-cols-2 gap-10 items-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center lg:text-left"
+        >
+          {/* Logo ODDS centrado y grande */}
+          <div className="flex items-center gap-4 mb-6">
+          <img
+            src="/logos/odds.png"
+            alt="ODDS logo"
+            className="h-20 w-auto lg:h-28" // 🔑 Logo más grande (80px en mobile, 112px en desktop)
+          />
           <Pill>Servicios boutique de marketing digital</Pill>
+        </div>
+
+
           <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight">
             Pauta que vende con{' '}
-            <span className="underline decoration-4 decoration-black underline-offset-4">estructura y resultados</span>.
+            <span className="underline decoration-4 decoration-black underline-offset-4">
+              estructura y resultados
+            </span>.
           </h1>
-          <p className="mt-4 text-lg opacity-90 max-w-prose">
+
+          <p className="mt-4 text-lg opacity-90 max-w-prose mx-auto lg:mx-0">
             Ayudamos a PyMEs y emprendedores que invierten en publicidad digital pero no logran que funcione.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+
+          <div className="mt-6 flex flex-wrap gap-3 justify-center lg:justify-start">
             <a href="#contact">
               <Button className="gap-2">
                 Agenda diagnóstico gratuito <ChevronRight className="h-4 w-4" />
@@ -47,7 +66,11 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           <Card className="ring-1 ring-black/10">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -83,7 +106,9 @@ export default function Hero() {
               </div>
               <div className="rounded-xl border p-4 bg-white">
                 <p className="text-sm opacity-80">Ventas extra (estimadas)*</p>
-                <p className="text-3xl font-bold">{savings.toLocaleString('es-CO')} órdenes/mes</p>
+                <p className="text-3xl font-bold">
+                  {savings.toLocaleString('es-CO')} órdenes/mes
+                </p>
                 <p className="text-xs opacity-60">*Ejemplo ilustrativo.</p>
               </div>
             </CardContent>
