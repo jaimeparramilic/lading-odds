@@ -136,6 +136,7 @@ export default function Hero() {
           </Card>
         </motion.div>
       </div>
+      
     </Section>
   );
 }
