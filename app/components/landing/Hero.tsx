@@ -10,15 +10,20 @@ import { Section } from './Section';
 import { Pill } from './Pill';
 
 export default function Hero() {
-  const [roi, setRoi] = useState({ spend: 1_000_000, cpa: 50_000, targetCpa: 40_000 });
+  const [roi, setRoi] = useState({ spend: 100, cpa: 10, targetCpa: 8 });
 
-  const savings = useMemo(() => {
+  const { totalSales, extraSales } = useMemo(() => {
     const { spend, cpa, targetCpa } = roi;
-    if (!spend || !cpa || !targetCpa) return 0;
-    const conv = spend / cpa;
-    const convTarget = spend / targetCpa;
-    const gain = convTarget - conv;
-    return Math.max(0, Math.round(gain));
+    if (!spend || !cpa || !targetCpa) return { totalSales: 0, extraSales: 0 };
+
+    const conv = spend / cpa; // ventas actuales
+    const convTarget = spend / targetCpa; // ventas con CPA objetivo
+    const gain = convTarget - conv; // ventas adicionales
+
+    return {
+      totalSales: Math.max(0, Math.round(convTarget)),
+      extraSales: Math.max(0, Math.round(gain)),
+    };
   }, [roi]);
 
   return (
@@ -32,14 +37,13 @@ export default function Hero() {
         >
           {/* Logo ODDS centrado y grande */}
           <div className="flex items-center gap-4 mb-6">
-          <img
-            src="/logos/odds.png"
-            alt="ODDS logo"
-            className="h-20 w-auto lg:h-28" // 🔑 Logo más grande (80px en mobile, 112px en desktop)
-          />
-          <Pill>Servicios boutique de marketing digital</Pill>
-        </div>
-
+            <img
+              src="/logos/odds.png"
+              alt="ODDS logo"
+              className="h-20 w-auto lg:h-28"
+            />
+            <Pill>Servicios boutique de marketing digital</Pill>
+          </div>
 
           <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight">
             Pauta que vende con{' '}
@@ -77,10 +81,10 @@ export default function Hero() {
                 <Sparkles className="h-5 w-5" /> Mini-proyección
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs">Pauta mensual (COP)</label>
+                  <label className="text-xs">Pauta mensual (USD)</label>
                   <Input
                     type="number"
                     value={roi.spend}
@@ -88,7 +92,7 @@ export default function Hero() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs">CPA actual (COP)</label>
+                  <label className="text-xs">CPA actual (USD)</label>
                   <Input
                     type="number"
                     value={roi.cpa}
@@ -96,7 +100,7 @@ export default function Hero() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs">CPA objetivo (COP)</label>
+                  <label className="text-xs">CPA objetivo (USD)</label>
                   <Input
                     type="number"
                     value={roi.targetCpa}
@@ -104,11 +108,19 @@ export default function Hero() {
                   />
                 </div>
               </div>
-              <div className="rounded-xl border p-4 bg-white">
-                <p className="text-sm opacity-80">Ventas extra (estimadas)*</p>
-                <p className="text-3xl font-bold">
-                  {savings.toLocaleString('es-CO')} órdenes/mes
-                </p>
+              <div className="rounded-xl border p-4 bg-white space-y-2">
+                <div>
+                  <p className="text-sm opacity-80">Ventas totales (estimadas)*</p>
+                  <p className="text-2xl font-bold">
+                    {totalSales.toLocaleString('en-US')} órdenes/mes
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm opacity-80">Ventas adicionales (estimadas)*</p>
+                  <p className="text-2xl font-bold text-green-600">
+                    +{extraSales.toLocaleString('en-US')} órdenes/mes
+                  </p>
+                </div>
                 <p className="text-xs opacity-60">*Ejemplo ilustrativo.</p>
               </div>
             </CardContent>
