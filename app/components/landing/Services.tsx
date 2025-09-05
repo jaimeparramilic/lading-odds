@@ -17,6 +17,8 @@ export default function Services() {
   return (
     <Section id="services" className="py-12">
       <div className="grid md:grid-cols-3 gap-6">
+        
+        {/* Auditoría */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -24,12 +26,14 @@ export default function Services() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <CheckItem>Diagnóstico express de campañas y tiendas</CheckItem>
-            <CheckItem>Análisis de audiencias y embudos</CheckItem>
-            <CheckItem>Eventos y píxeles implementados en 72h</CheckItem>
-            <CheckItem>Reporte claro con oportunidades reales</CheckItem>
+            <CheckItem>Revisamos tus campañas y tienda en menos de 72h</CheckItem>
+            <CheckItem>Detectamos fugas de inversión y audiencias clave</CheckItem>
+            <CheckItem>Validamos que tus píxeles y eventos estén bien configurados</CheckItem>
+            <CheckItem>Entregamos un reporte claro con acciones concretas</CheckItem>
           </CardContent>
         </Card>
+
+        {/* Setup */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -37,12 +41,14 @@ export default function Services() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <CheckItem>Configuración de píxeles, UTMs y apps</CheckItem>
-            <CheckItem>Campañas en Meta, Google, TikTok y LinkedIn</CheckItem>
-            <CheckItem>Integración con Shopify, Woo, VTEX, Tiendanube</CheckItem>
-            <CheckItem>Creatividades listas para rendir</CheckItem>
+            <CheckItem>Configuramos píxeles, UTMs y apps sin enredos técnicos</CheckItem>
+            <CheckItem>Montamos campañas en Meta, Google, TikTok y LinkedIn</CheckItem>
+            <CheckItem>Integramos tu tienda (Shopify, Woo, VTEX, Tiendanube)</CheckItem>
+            <CheckItem>Creamos anuncios listos para convertir en ventas</CheckItem>
           </CardContent>
         </Card>
+
+        {/* Operación */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -50,12 +56,13 @@ export default function Services() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <CheckItem>Optimización semanal y pruebas A/B</CheckItem>
-            <CheckItem>Reportes visuales con foco en ventas</CheckItem>
-            <CheckItem>Acompañamiento experto sin contratar equipo</CheckItem>
-            <CheckItem>Backlog priorizado de mejoras</CheckItem>
+            <CheckItem>Optimizamos tus campañas cada semana</CheckItem>
+            <CheckItem>Hacemos pruebas A/B para mejorar resultados</CheckItem>
+            <CheckItem>Reportamos ventas y métricas en tableros simples</CheckItem>
+            <CheckItem>Te acompañamos como equipo experto sin contratar más personal</CheckItem>
           </CardContent>
         </Card>
+
       </div>
     </Section>
   );
