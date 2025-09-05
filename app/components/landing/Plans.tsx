@@ -5,51 +5,66 @@ import { Button } from '../../../components/ui/button';
 import { Check } from 'lucide-react';
 import { Pill } from './Pill';
 
-const planTiers = [
+const SHOW_PRICES = true;
+
+type Plan = {
+  name: string;
+  tagline: string;
+  price?: string;
+  priceNote?: string;
+  badge?: string;
+  featured?: boolean;
+  features: string[];
+};
+
+const planTiers: Plan[] = [
   {
     name: 'Base',
-    tagline: 'Para arrancar con método',
-    price: 'A demanda',
+    tagline: 'Empieza con control y método',
+    price: 'Desde USD 100 (único)',
+    priceNote: 'Incluye auditoría y setup inicial',
     badge: 'Sprint 4–5 semanas',
     features: [
-      'Auditoría express de cuentas y sitio',
-      'Plan táctico de palabras clave y audiencias',
-      'Setup de campañas (search/paid social)',
-      '2 creatividades por canal (estáticas/video)',
-      'Medición simple del embudo (GA4 + píxeles)',
-      'Dashboard básico de resultados',
+      'Revisamos tus cuentas y sitio web para detectar fugas de inversión',
+      'Configuramos GA4, píxeles y UTMs para medir lo que importa',
+      'Dejamos campañas listas en Meta y Google para arrancar',
+      'Entregamos 2 creatividades por canal listas para correr',
+      'Integramos la medición básica de tu sitio web y tienda online',
+      'Dashboard simple con próximos pasos claros',
     ],
   },
   {
     name: 'Growth',
-    tagline: 'Escala con automatización + AI',
-    price: 'Mensual',
+    tagline: 'Escala con automatización + IA',
+    price: 'USD 800–1,500 / mes',
+    priceNote: 'Depende de canales y presupuesto',
     badge: 'Recomendado',
     featured: true,
     features: [
-      'Optimización semanal (bids, budget, negativas)',
-      'Testing estructurado (ads/landings/audiencias)',
-      'Email & CRM: flows esenciales + integraciones',
-      'CRO ligero: hipótesis + cambios rápidos',
-      'Reportes ejecutivos y backlog priorizado',
-      'Soporte de BI (Snowflake/Looker Studio)',
+      'Optimizamos semanalmente tus campañas en Meta, Google y TikTok',
+      'Probamos anuncios y landings para mejorar conversión real',
+      'Activamos email marketing y CRM para retener clientes',
+      'Integramos tu tienda Shopify, Woo o VTEX para seguimiento de ventas',
+      'Reportes ejecutivos en Looker Studio: ventas y rentabilidad, no solo clics',
+      'Automatizamos procesos con UTMs y flujos simples para ahorrar tiempo',
     ],
   },
   {
     name: 'Pro',
-    tagline: 'Operación continua y ciencia de datos',
-    price: 'Mensual',
+    tagline: 'Operación continua con ciencia de datos',
+    price: 'USD 2,000–5,000 / mes',
+    priceNote: 'Ideal para catálogos y multicanal avanzados',
     badge: 'Equipos en co-operación',
     features: [
-      'Estrategia multi-canal con mix & MMM ligero',
-      'Catálogos Shopping y feeds avanzados',
-      'Segmentación de audiencias 1st/3rd party',
-      'Modelos de atribución y pruebas de lift',
-      'Automatizaciones (Zapier/API) + QA continuo',
-      'Soporte C-Level y squads por objetivo',
+      'Diseñamos estrategia multicanal con Google, Meta y LinkedIn',
+      'Gestionamos catálogos Shopping y feeds avanzados para escalar productos',
+      'Segmentamos audiencias con datos propios + 3rd party',
+      'Medimos el impacto real con modelos de atribución y lift tests',
+      'Automatizamos reportes y QA continuo con Zapier y APIs',
+      'Soporte directo a nivel C-Level con visión de negocio',
     ],
   },
-] as const;
+];
 
 function CheckItem({ children }: { children: React.ReactNode }) {
   return (
@@ -66,29 +81,44 @@ export default function Plans() {
       <div className="max-w-3xl">
         <h2 className="text-3xl font-bold tracking-tight">Planes y paquetes</h2>
         <p className="mt-2 opacity-80">
-          Modular. Flexible. Accesible. Selecciona el nivel que mejor se ajusta a tu etapa.
+          Modular. Flexible. Accesible. Elige el plan que mejor acompaña tu etapa de negocio.
         </p>
       </div>
+
       <div className="grid md:grid-cols-3 gap-6 mt-8">
         {planTiers.map((p) => (
-          <Card key={p.name} className={`flex flex-col ${p['featured'] ? 'border-2' : ''}`}>
+          <Card key={p.name} className={`flex flex-col ${p.featured ? 'border-2' : ''}`}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>{p.name}</CardTitle>
                 {p.badge && <Pill>{p.badge}</Pill>}
               </div>
               <p className="text-sm opacity-70">{p.tagline}</p>
-              <div className="pt-4 text-3xl font-bold">{p.price}</div>
+
+              {SHOW_PRICES ? (
+                <>
+                  <div className="pt-4 text-3xl font-bold">{p.price}</div>
+                  {p.priceNote && (
+                    <div className="text-xs opacity-70 pt-1">{p.priceNote}</div>
+                  )}
+                </>
+              ) : (
+                <div className="pt-4 text-3xl font-bold">A demanda</div>
+              )}
             </CardHeader>
+
             <CardContent className="flex-1">
               <ul className="space-y-2 text-sm">
                 {p.features.map((f) => (
                   <CheckItem key={f}>{f}</CheckItem>
                 ))}
               </ul>
+
               <div className="mt-6">
                 <a href="#contact">
-                  <Button className="w-full">Solicitar propuesta</Button>
+                  <Button className="w-full">
+                    {p.name === 'Base' ? 'Solicitar diagnóstico' : 'Solicitar propuesta'}
+                  </Button>
                 </a>
               </div>
             </CardContent>
