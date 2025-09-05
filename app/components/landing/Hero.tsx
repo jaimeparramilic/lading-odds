@@ -35,34 +35,36 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          // Márgenes negativos más fuertes para alinear con la tarjeta
           className="text-center flex flex-col items-center self-start -mt-4 md:-mt-6 lg:-mt-8"
         >
-          {/* Logo + pill en la misma fila */}
+          {/* Logo + pill */}
           <div className="flex items-center justify-center gap-4 mb-2">
             <img
               src="/logos/odds.png"
               alt="ODDS logo"
               className="h-20 w-auto lg:h-40"
             />
-            <Pill>Servicios boutique de marketing digital</Pill>
+            <Pill>Performance para PyMEs</Pill>
           </div>
 
+          {/* Headline */}
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight max-w-xl">
             Pauta que vende con{' '}
             <span className="underline decoration-4 decoration-black underline-offset-4">
-              estructura y resultados
+              estructura
             </span>.
           </h1>
 
+          {/* Subtítulo */}
           <p className="mt-4 text-lg opacity-90 max-w-prose">
-            Ayudamos a PyMEs y emprendedores que invierten en publicidad digital pero no logran que funcione.
+            Para PyMEs que gastan en anuncios pero no generan ventas.
           </p>
 
+          {/* CTAs */}
           <div className="mt-6 flex flex-wrap gap-3 justify-center">
             <a href="#contact">
               <Button className="gap-2">
-                Agenda diagnóstico gratuito <ChevronRight className="h-4 w-4" />
+                Agenda diagnóstico sin costo <ChevronRight className="h-4 w-4" />
               </Button>
             </a>
             <a href="#plans">
@@ -114,7 +116,6 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Ventas totales y adicionales en la misma fila */}
               <div className="rounded-xl border p-4 bg-white">
                 <div className="flex items-center justify-between">
                   <div>
@@ -136,7 +137,6 @@ export default function Hero() {
           </Card>
         </motion.div>
       </div>
-      
     </Section>
   );
 }
