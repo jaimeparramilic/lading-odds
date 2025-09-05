@@ -7,6 +7,7 @@ const APPS_SCRIPT_URL_LEADS =
 const APPS_SCRIPT_URL_VISITORS =
   'https://script.google.com/macros/s/AKfycbzhQR4aGj0GLmYRxriwBmrU8iRiob8T7Sqti9lQzkFJnmaLeBfD2SwAUG1_gamfAdvx/exec';
 
+  
 const SHARED_SECRET = '1234Jams*';
 const VISITOR_KINDS = new Set(['pageview', 'event', 'webvitals']);
 
