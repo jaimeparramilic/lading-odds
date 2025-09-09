@@ -89,13 +89,13 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // --- Inicio OAuth (sin code): delega en la librería ---
+  // --- Inicio OAuth (sin code): MANUAL (evita 500 del auth.begin) ---
   if (!code) {
     if (!validShop(shop)) {
       return json(400, { error: "Parámetro 'shop' inválido. Ej: tu-tienda.myshopify.com", shop });
     }
 
-    // Seco: solo imprime URL de autorización (no redirige)
+    // Dry run: solo imprime la URL de autorización (no redirige)
     if (dryrun === '1') {
       const state = crypto.randomBytes(24).toString('base64url');
       const authorizeUrl =
@@ -110,13 +110,20 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Adapter Web API: types de la lib pueden no declarar 'request' aún; casteamos para TS.
-    return await (shopify.auth as any).begin({
-      shop: shop!,
-      isOnline: false,                 // offline token
-      callbackPath: '/api/shopify/oauth',
-      request: req,                    // Next App Router Request
-    });
+    // Redirect real + cookies de state/shop
+    const oauthState = crypto.randomBytes(24).toString('base64url');
+    const authorizeUrl =
+      `https://${shop}/admin/oauth/authorize` +
+      `?client_id=${encodeURIComponent(SHOPIFY_API_KEY!)}` +
+      `&scope=${encodeURIComponent(SHOPIFY_SCOPES!)}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&state=${encodeURIComponent(oauthState)}`;
+
+    const SECURE_COOKIE = process.env.NODE_ENV === 'production';
+    const res = NextResponse.redirect(authorizeUrl);
+    res.cookies.set('shopify_oauth_state', oauthState, { httpOnly: true, secure: SECURE_COOKIE, sameSite: 'lax', path: '/', maxAge: 300 });
+    res.cookies.set('shopify_shop', shop!,                 { httpOnly: true, secure: SECURE_COOKIE, sameSite: 'lax', path: '/', maxAge: 300 });
+    return res;
   }
 
   // --- Debug HMAC del callback (sin canjear token) ---
@@ -137,7 +144,7 @@ export async function GET(req: NextRequest) {
   try {
     const { session, shop: confirmedShop } = await (shopify.auth as any).callback({
       isOnline: false,
-      request: req, // Next App Router Request
+      request: req, // Next App Router Request (adapter Web API)
     });
 
     const access_token = (session as any).accessToken as string;
