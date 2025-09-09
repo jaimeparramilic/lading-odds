@@ -20,8 +20,37 @@ export const shopify = shopifyApi({
   apiKey: API_KEY,
   apiSecretKey: SECRET,
   scopes: SCOPES,
-  apiVersion: LATEST_API_VERSION,                 // o fija una versión concreta si prefieres
-  hostName: new URL(APP_URL).host,                // p.ej. lading-odds-2.vercel.app
+  apiVersion: LATEST_API_VERSION,
+  hostName: new URL(APP_URL).host,
   hostScheme: new URL(APP_URL).protocol.replace(':','') as 'https' | 'http',
-  isEmbeddedApp: false,                           // si tu app no es embebida
+  isEmbeddedApp: false,
 });
+
+// === Helpers de clientes con un access token existente ===
+export function restClient(shop: string, accessToken: string) {
+  return new shopify.clients.Rest({
+    session: {
+      id: `${shop}_offline`,
+      shop,
+      state: 'unused',
+      isOnline: false,
+      scope: '',
+      accessToken,
+      expires: undefined,
+    } as any,
+  });
+}
+
+export function graphqlClient(shop: string, accessToken: string) {
+  return new shopify.clients.Graphql({
+    session: {
+      id: `${shop}_offline`,
+      shop,
+      state: 'unused',
+      isOnline: false,
+      scope: '',
+      accessToken,
+      expires: undefined,
+    } as any,
+  });
+}

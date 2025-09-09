@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/api/shopify/oauth":{},"/components/landing":{},"/privacidad":{},"/terminos":{}}}
+{"version":1,"functions":{"/api/shopify/admin/ping":{},"/api/shopify/admin/products":{},"/api/shopify/oauth":{},"/api/shopify/webhooks":{},"/components/landing":{},"/privacidad":{},"/terminos":{}}}

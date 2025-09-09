@@ -1,8 +1,11 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/components/landing/route": "app/components/landing/route.js",
-  "/terminos/page": "app/terminos/page.js",
   "/privacidad/page": "app/privacidad/page.js",
-  "/api/shopify/oauth/route": "app/api/shopify/oauth/route.js"
+  "/api/shopify/admin/products/route": "app/api/shopify/admin/products/route.js",
+  "/api/shopify/oauth/route": "app/api/shopify/oauth/route.js",
+  "/api/shopify/admin/ping/route": "app/api/shopify/admin/ping/route.js",
+  "/terminos/page": "app/terminos/page.js",
+  "/api/shopify/webhooks/route": "app/api/shopify/webhooks/route.js",
+  "/components/landing/route": "app/components/landing/route.js",
+  "/page": "app/page.js"
 }
