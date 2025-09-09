@@ -1,0 +1,35 @@
+name: Deploy to Cloud Run (backup)
+
+on:
+  push:
+    branches: [ "main" ]   # IMPORTANTE: tu provider WIF está limitado a main
+  workflow_dispatch:        # permite "Run workflow" manual
+
+jobs:
+  cloud-run:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    env:
+      SERVICE: odds-landing-backup
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --source . \
+            --region "${{ secrets.GCP_REGION }}" \
+            --allow-unauthenticated \
+            --set-env-vars APP_URL=${{ secrets.APP_URL }},SHOPIFY_API_KEY=${{ secrets.SHOPIFY_API_KEY }},SHOPIFY_API_SECRET=${{ secrets.SHOPIFY_API_SECRET }},SHOPIFY_SCOPES="${{ secrets.SHOPIFY_SCOPES }}",SHOPIFY_API_VERSION=${{ secrets.SHOPIFY_API_VERSION }}
