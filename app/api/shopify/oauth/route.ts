@@ -43,6 +43,15 @@ function safeEqHex(aHex: string, bHex: string) {
   return a.length === b.length && crypto.timingSafeEqual(a,b);
 }
 
+// Copia solo las cookies que haya seteado la librería en un Response temporal
+function appendSetCookies(dst: NextResponse, src: Response) {
+  const setCookies = src.headers.getSetCookie?.() ??
+    src.headers.get('set-cookie')?.split(/,(?=\s*\w+=)/g) ?? []; // fallback
+  for (const c of setCookies) {
+    if (c && typeof c === 'string') dst.headers.append('Set-Cookie', c);
+  }
+}
+
 export async function GET(req: NextRequest) {
   // sanity env
   if (!SHOPIFY_API_KEY || !SECRET || !SHOPIFY_SCOPES || !APP_URL) {
@@ -89,7 +98,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // --- Inicio OAuth (sin code): MANUAL (evita 500 del auth.begin) ---
+  // --- Inicio OAuth (sin code): MANUAL (evita errores 500) ---
   if (!code) {
     if (!validShop(shop)) {
       return json(400, { error: "Parámetro 'shop' inválido. Ej: tu-tienda.myshopify.com", shop });
@@ -110,7 +119,7 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Redirect real + cookies de state/shop
+    // Redirect real + cookies de state/shop (para validarlas luego)
     const oauthState = crypto.randomBytes(24).toString('base64url');
     const authorizeUrl =
       `https://${shop}/admin/oauth/authorize` +
@@ -142,9 +151,13 @@ export async function GET(req: NextRequest) {
 
   // --- Callback: valida HMAC/STATE y canjea token con la librería ---
   try {
+    // La librería necesita un Response para setear cookies; luego las copiamos
+    const libResp = new Response(null, { headers: new Headers() });
+
     const { session, shop: confirmedShop } = await (shopify.auth as any).callback({
       isOnline: false,
-      request: req, // Next App Router Request (adapter Web API)
+      request: req,      // Next App Router Request (Web API)
+      response: libResp, // <-- NECESARIO para que la lib pueda escribir Set-Cookie
     });
 
     const access_token = (session as any).accessToken as string;
@@ -152,7 +165,7 @@ export async function GET(req: NextRequest) {
     const apiVersion = SHOPIFY_API_VERSION || '2025-07';
 
     if (format === 'json') {
-      return json(200, {
+      const out = json(200, {
         ok: true,
         shop: confirmedShop,
         api_version: apiVersion,
@@ -160,12 +173,14 @@ export async function GET(req: NextRequest) {
         scope,
         saved_at: new Date().toISOString(),
       });
+      appendSetCookies(out, libResp);
+      return out;
     }
 
     const masked = `${access_token.slice(0,6)}…${access_token.slice(-4)}`;
     const jsonStr = JSON.stringify({ access_token, scope, shop: confirmedShop, api_version: apiVersion, saved_at: new Date().toISOString() }, null, 2);
 
-    return new NextResponse(
+    const html = new NextResponse(
       `<!doctype html><html><body style="font-family:system-ui;padding:28px">
         <h1>✅ OAuth OK</h1>
         <p><b>Tienda:</b> ${confirmedShop}</p>
@@ -177,6 +192,8 @@ export async function GET(req: NextRequest) {
       </body></html>`,
       { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } }
     );
+    appendSetCookies(html, libResp);
+    return html;
   } catch (err: any) {
     return json(400, { error: 'OAuth callback falló', details: String(err) });
   }
