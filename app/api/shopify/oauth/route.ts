@@ -4,163 +4,202 @@ import crypto from "crypto";
 
 export const runtime = "nodejs"; // Node para crypto estable
 
+// ===== Entorno =====
 const {
   SHOPIFY_API_KEY,
   SHOPIFY_API_SECRET,
   SHOPIFY_SCOPES,
   SHOPIFY_API_VERSION,
   APP_URL: RAW_APP_URL,
+  MAX_TIMESTAMP_SKEW_SEC = "600", // 10 min por defecto
 } = process.env;
 
 // Normaliza APP_URL (quita "/" finales)
 const APP_URL = (RAW_APP_URL || "").replace(/\/+$/, "");
 
-// -------- Helpers HMAC --------
-function safeEqualHex(a: string, b: string) {
-  try { return crypto.timingSafeEqual(Buffer.from(a, "utf8"), Buffer.from(b, "utf8")); }
-  catch { return false; }
+// Regex segura para tiendas Shopify
+const SHOP_DOMAIN_RE = /^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i;
+
+// ===== Helpers de respuesta (no-store) =====
+function jsonNoStore(status: number, body: unknown) {
+  return new NextResponse(JSON.stringify(body), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
+}
+function htmlNoStore(html: string, status = 200) {
+  return new NextResponse(html, {
+    status,
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
 }
 
-// Parámetros *locales* que NO deben entrar en la firma (no los manda Shopify)
+// ===== Utilidades =====
+function originFromReq(req: NextRequest) {
+  const xfProto = (req.headers.get("x-forwarded-proto") || "https").split(",")[0].trim();
+  const host = (req.headers.get("x-forwarded-host") || req.headers.get("host") || "").split(",")[0].trim();
+  if (!host) return undefined;
+  return `${xfProto}://${host}`;
+}
+
+// ===== HMAC helpers (canonical Shopify) =====
 const LOCAL_PARAMS = new Set(["hmac", "signature", "debug", "format", "check", "dryrun"]);
 
-/** Verificación dual:
- *  A) valores decodificados (URLSearchParams) → msgA/digA
- *  B) query string cruda (sin decodificar) → msgB/digB
- *  Se acepta si cualquiera coincide; ignora LOCAL_PARAMS en ambos casos
- */
-function verifyHmacDual(url: URL, secret: string) {
-  const given = url.searchParams.get("hmac") || "";
-
-  // --- A) decoded ---
-  const keysA = Array.from(url.searchParams.keys())
-    .filter(k => !LOCAL_PARAMS.has(k))
-    .sort((a,b) => a < b ? -1 : a > b ? 1 : 0);
-
-  const pairsA: string[] = [];
-  for (const k of keysA) {
-    const vs = url.searchParams.getAll(k);
-    for (const v of vs) pairsA.push(`${k}=${v}`);
-  }
-  const msgA = pairsA.join("&");
-  const digA = crypto.createHmac("sha256", secret).update(msgA, "utf8").digest("hex");
-  const sameA = safeEqualHex(digA, given);
-
-  // --- B) raw ---
-  const full = url.toString();
-  const rawQuery = full.includes("?") ? full.split("?", 2)[1] : "";
-  const parts = rawQuery ? rawQuery.split("&").filter(Boolean) : [];
-
-  const kvRaw: Array<{ k: string; v: string }> = [];
-  for (const p of parts) {
-    const eq = p.indexOf("=");
-    const k = eq >= 0 ? p.slice(0, eq) : p;
-    const v = eq >= 0 ? p.slice(eq + 1) : "";
-    if (LOCAL_PARAMS.has(k)) continue;
-    kvRaw.push({ k, v }); // NO decodificar
-  }
-  kvRaw.sort((a,b) => a.k < b.k ? -1 : a.k > b.k ? 1 : 0);
-  const msgB = kvRaw.map(({k,v}) => `${k}=${v}`).join("&");
-  const digB = crypto.createHmac("sha256", secret).update(msgB, "utf8").digest("hex");
-  const sameB = safeEqualHex(digB, given);
-
-  return {
-    ok: sameA || sameB,
-    given_hmac: given,
-    variant: sameA ? "A" : sameB ? "B" : "none",
-    decoded: { message: msgA, digest: digA, same: sameA },
-    raw:     { message: msgB, digest: digB, same: sameB },
-  };
+function safeEqualHex(aHex: string, bHex: string) {
+  if (!aHex || !bHex) return false;
+  const a = Buffer.from(aHex.toLowerCase(), "hex");
+  const b = Buffer.from(bHex.toLowerCase(), "hex");
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
 }
-// --------------------------------
 
-export async function GET(req: NextRequest) {
-  if (!SHOPIFY_API_KEY || !SHOPIFY_API_SECRET || !SHOPIFY_SCOPES || !APP_URL) {
-    return NextResponse.json(
-      {
-        error: "Faltan variables de entorno",
-        SHOPIFY_API_KEY: !!SHOPIFY_API_KEY,
-        SHOPIFY_API_SECRET: !!SHOPIFY_API_SECRET,
-        SHOPIFY_SCOPES: !!SHOPIFY_SCOPES,
-        APP_URL,
-      },
-      { status: 500 }
-    );
+/** Mensaje canónico:
+ * - Toma TODOS los query params excepto hmac/signature y flags locales
+ * - Ordena por clave y, si se repite, por valor (estable)
+ * - key=value unidos por '&' con valores decodificados
+ */
+function buildCanonicalMessage(url: URL) {
+  const keys = Array.from(new Set(Array.from(url.searchParams.keys())));
+  const entries: Array<[string, string]> = [];
+  for (const k of keys) {
+    if (LOCAL_PARAMS.has(k)) continue;
+    for (const v of url.searchParams.getAll(k)) entries.push([k, v]);
   }
+  entries.sort((a, b) => (a[0] === b[0] ? a[1].localeCompare(b[1]) : a[0].localeCompare(b[0])));
+  return entries.map(([k, v]) => `${k}=${v}`).join("&");
+}
 
-  const secure = process.env.NODE_ENV === "production";
-  const fullUrl = req.url;
-  const url = new URL(fullUrl);
+function verifyShopifyHmac(url: URL, secret: string) {
+  const given = (url.searchParams.get("hmac") || "").toLowerCase();
+  const message = buildCanonicalMessage(url);
+  const digest = crypto.createHmac("sha256", secret).update(message, "utf8").digest("hex");
+  return { ok: safeEqualHex(digest, given), given_hmac: given, message, digest };
+}
 
-  const shop   = url.searchParams.get("shop") || req.cookies.get("shopify_shop")?.value || "";
-  const code   = url.searchParams.get("code");
-  const state  = url.searchParams.get("state");
-  const format = url.searchParams.get("format"); // "json" opcional
-  const check  = url.searchParams.get("check");
-  const dryrun = url.searchParams.get("dryrun");
-  const debug  = url.searchParams.get("debug"); // "1" o "2"
-
-  const redirectUri = `${APP_URL}/api/shopify/oauth`;
-
-  // Log de toda request (útil para ver el callback exacto)
-  console.log("[Shopify OAuth] Incoming URL:", fullUrl);
-
-  // ---------- Diagnóstico (no redirige) ----------
-  if (!code && check === "1") {
-    const example =
-      shop && shop.endsWith(".myshopify.com")
-        ? `https://${shop}/admin/oauth/authorize?client_id=${encodeURIComponent(SHOPIFY_API_KEY)}&scope=${encodeURIComponent(SHOPIFY_SCOPES)}&redirect_uri=${encodeURIComponent(redirectUri)}&state=<RANDOM_STATE>`
-        : "(agrega ?shop=tu-tienda.myshopify.com)";
-    return NextResponse.json({
-      note: "Diagnóstico: esto es lo que enviaríamos a Shopify (no se redirige)",
-      shop,
-      app_url_env: APP_URL,
-      redirect_uri: redirectUri,
-      must_match_allowed_redirect: `${APP_URL}/api/shopify/oauth`,
-      example_authorize_url: example,
+// ===== Handler =====
+export async function GET(req: NextRequest) {
+  // 0) Validación de env
+  if (!SHOPIFY_API_KEY || !SHOPIFY_API_SECRET || !SHOPIFY_SCOPES || !APP_URL) {
+    return jsonNoStore(500, {
+      error: "Faltan variables de entorno",
+      SHOPIFY_API_KEY: !!SHOPIFY_API_KEY,
+      SHOPIFY_API_SECRET: !!SHOPIFY_API_SECRET,
+      SHOPIFY_SCOPES: !!SHOPIFY_SCOPES,
+      APP_URL,
+      tip: "Configura SHOPIFY_API_KEY, SHOPIFY_API_SECRET, SHOPIFY_SCOPES y APP_URL (sin slash final).",
     });
   }
 
-  // ---------- Inicio de flujo ----------
+  const fullUrl = req.url;
+  const url = new URL(fullUrl);
+  const secure = process.env.NODE_ENV === "production";
+  const reqOrigin = originFromReq(req);
+  const redirectUri = `${APP_URL}/api/shopify/oauth`;
+
+  // Parámetros request
+  const shopParam = url.searchParams.get("shop") || req.cookies.get("shopify_shop")?.value || "";
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  const timestamp = url.searchParams.get("timestamp") || "";
+  const format = url.searchParams.get("format");
+  const check = url.searchParams.get("check");
+  const dryrun = url.searchParams.get("dryrun");
+  const debug = url.searchParams.get("debug");
+
+  // Logs base
+  console.log("[Shopify OAuth] Incoming URL:", fullUrl);
+  console.log("[Shopify OAuth] Host:", req.headers.get("host"), "→ originFromReq:", reqOrigin);
+  console.log("[Shopify OAuth] redirectUri:", redirectUri);
+
+  // Sanitiza/valida shop
+  const shop = shopParam && SHOP_DOMAIN_RE.test(shopParam) ? shopParam : "";
+
+  // 1) Diagnóstico (sin redirigir)
+  if (!code && check === "1") {
+    const example =
+      shop
+        ? `https://${shop}/admin/oauth/authorize?client_id=${encodeURIComponent(
+            SHOPIFY_API_KEY
+          )}&scope=${encodeURIComponent(SHOPIFY_SCOPES)}&redirect_uri=${encodeURIComponent(
+            redirectUri
+          )}&state=<RANDOM_STATE>`
+        : "(agrega ?shop=tu-tienda.myshopify.com)";
+
+    return jsonNoStore(200, {
+      note: "Diagnóstico: esto es lo que enviaríamos a Shopify (no se redirige)",
+      app_url_env: APP_URL,
+      request_origin_deduced: reqOrigin,
+      redirect_uri_expected: redirectUri,
+      redirect_uri_must_match_allowed: `${APP_URL}/api/shopify/oauth`,
+      shop_input: shopParam,
+      shop_validated: shop,
+      example_authorize_url: example,
+      tips: [
+        "Verifica que el Allowed redirection URL coincide EXACTO con redirect_uri.",
+        "SHOPIFY_API_SECRET debe ser el Client secret del app.",
+      ],
+    });
+  }
+
+  // 2) Inicio de flujo (no hay 'code' → redirigir)
   if (!code) {
-    if (!shop.endsWith(".myshopify.com")) {
-      return NextResponse.json({ error: "Parámetro 'shop' inválido. Ej: tu-tienda.myshopify.com", shop }, { status: 400 });
+    if (!shop) {
+      return jsonNoStore(400, { error: "Parámetro 'shop' inválido. Ej: tu-tienda.myshopify.com", shop: shopParam });
     }
 
     const oauthState = crypto.randomBytes(24).toString("base64url");
+
     const authorizeUrl =
       `https://${shop}/admin/oauth/authorize` +
       `?client_id=${encodeURIComponent(SHOPIFY_API_KEY)}` +
       `&scope=${encodeURIComponent(SHOPIFY_SCOPES)}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&state=${encodeURIComponent(oauthState)}`;
+    // Para tokens online: añade &grant_options[]=per-user
 
-    console.log("[Shopify OAuth] redirectUri:", redirectUri);
     console.log("[Shopify OAuth] authorizeUrl:", authorizeUrl);
 
     if (dryrun === "1") {
-      return new NextResponse(authorizeUrl, { status: 200, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+      return new NextResponse(authorizeUrl, {
+        status: 200,
+        headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" },
+      });
     }
 
     const res = NextResponse.redirect(authorizeUrl);
-    res.cookies.set("shopify_oauth_state", oauthState, { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 300 });
-    res.cookies.set("shopify_shop", shop,                 { httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 300 });
+    res.cookies.set("shopify_oauth_state", oauthState, {
+      httpOnly: true,
+      secure,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 300,
+    });
+    res.cookies.set("shopify_shop", shop, {
+      httpOnly: true,
+      secure,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 300,
+    });
     return res;
   }
 
-  // ---------- Callback ----------
-  if (!shop.endsWith(".myshopify.com")) {
-    return NextResponse.json({ error: "Shop inválido", shop }, { status: 400 });
+  // 3) Callback (hay 'code'): primero HMAC → luego state/shop
+  if (!shop) {
+    return jsonNoStore(400, { error: "Shop inválido", shop: shopParam });
   }
 
-  const stateCookie = req.cookies.get("shopify_oauth_state")?.value || "";
-  const shopCookie  = req.cookies.get("shopify_shop")?.value || "";
-
-  // Debug profundo antes de validar state/HMAC (para inspección)
+  // DEBUG 2: inspección completa (sin exigir state)
   if (debug === "2") {
-    const vd = verifyHmacDual(url, SHOPIFY_API_SECRET);
-    return NextResponse.json({
-      note: "DEBUG2: inspección completa del callback",
+    const v = verifyShopifyHmac(url, SHOPIFY_API_SECRET!);
+    return jsonNoStore(200, {
+      note: "DEBUG2: inspección completa del callback (no se canjea el token)",
       full_url: fullUrl,
       headers: {
         host: req.headers.get("host"),
@@ -169,52 +208,84 @@ export async function GET(req: NextRequest) {
       },
       shop,
       state_param: state,
-      cookies: { stateCookie, shopCookie },
+      cookies_seen: {
+        stateCookie: req.cookies.get("shopify_oauth_state")?.value || "",
+        shopCookie: req.cookies.get("shopify_shop")?.value || "",
+      },
       hmac: {
-        given: vd.given_hmac,
-        matched_variant: vd.variant,  // "A" | "B" | "none"
-        variant_A: vd.decoded,        // { message, digest, same }
-        variant_B: vd.raw,            // { message, digest, same }
+        given: v.given_hmac,
+        expected: v.digest,
+        message_signed: v.message,
+        match: v.ok,
       },
       redirect_uri_expected: redirectUri,
+      request_origin_deduced: reqOrigin,
+      timestamp_param: timestamp,
     });
   }
 
-  // State y shop deben coincidir
-  if (!state || state !== stateCookie || !shopCookie || shopCookie !== shop) {
-    return NextResponse.json({ error: "STATE/SHOP inválidos", state, stateCookie, shopCookie, shop }, { status: 400 });
-  }
-
-  // Debug simple de HMAC (sin canjear token)
+  // DEBUG 1: HMAC solamente (sin exigir state)
   if (debug === "1") {
-    const vd = verifyHmacDual(url, SHOPIFY_API_SECRET);
-    return NextResponse.json({
-      note: "DEBUG1 HMAC",
+    const v = verifyShopifyHmac(url, SHOPIFY_API_SECRET!);
+    return jsonNoStore(200, {
+      note: "DEBUG1 HMAC (sin validar state)",
       shop,
-      given_hmac: vd.given_hmac,
-      matched_variant: vd.variant,
-      variant_A: vd.decoded,
-      variant_B: vd.raw,
+      given_hmac: v.given_hmac,
+      expected_digest: v.digest,
+      message: v.message,
+      ok: v.ok,
+      hint: "Si no coincide, revisa SHOPIFY_API_SECRET y el redirect_uri exacto en el dashboard.",
     });
   }
 
-  // Verificar HMAC
-  const vd = verifyHmacDual(url, SHOPIFY_API_SECRET);
-  if (!vd.ok) {
-    return NextResponse.json({ error: "HMAC inválido" }, { status: 400 });
+  // Verificación HMAC real
+  const v = verifyShopifyHmac(url, SHOPIFY_API_SECRET!);
+  if (!v.ok) {
+    return jsonNoStore(400, {
+      error: "HMAC inválido",
+      hint: "Agrega ?debug=1 para ver el mensaje canónico y el digest esperado.",
+    });
   }
 
-  // Intercambio code → token (offline por defecto)
+  // Ahora valida state/shop (anti-CSRF & correlación)
+  const stateCookie = req.cookies.get("shopify_oauth_state")?.value || "";
+  const shopCookie = req.cookies.get("shopify_shop")?.value || "";
+  if (!state || state !== stateCookie || !shopCookie || shopCookie !== shop) {
+    return jsonNoStore(400, {
+      error: "STATE/SHOP inválidos",
+      details: { state, stateCookie, shop, shopCookie },
+      hint: "Asegúrate de que el callback llega al MISMO dominio que inició el flujo (cookies).",
+    });
+  }
+
+  // (Opcional) Valida frescura de timestamp si vino
+  if (timestamp) {
+    const nowSec = Math.floor(Date.now() / 1000);
+    const ts = Number.parseInt(timestamp, 10);
+    const skew = Number.parseInt(String(MAX_TIMESTAMP_SKEW_SEC), 10) || 600;
+    if (Number.isFinite(ts) && Math.abs(nowSec - ts) > skew) {
+      return jsonNoStore(400, {
+        error: "Timestamp fuera de ventana",
+        details: { nowSec, timestamp: ts, maxSkewSec: skew },
+      });
+    }
+  }
+
+  // Intercambio code → token
   const tokenResp = await fetch(`https://${shop}/admin/oauth/access_token`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify({ client_id: SHOPIFY_API_KEY, client_secret: SHOPIFY_API_SECRET, code }),
+    headers: { "content-type": "application/json", accept: "application/json" },
+    body: JSON.stringify({
+      client_id: SHOPIFY_API_KEY,
+      client_secret: SHOPIFY_API_SECRET,
+      code,
+    }),
     cache: "no-store",
   });
 
   if (!tokenResp.ok) {
     const txt = await tokenResp.text();
-    return NextResponse.json({ error: "Intercambio de token falló", details: txt }, { status: 400 });
+    return jsonNoStore(400, { error: "Intercambio de token falló", details: txt });
   }
 
   const data = await tokenResp.json();
@@ -222,9 +293,8 @@ export async function GET(req: NextRequest) {
   const scope: string = data.scope || "";
   const apiVersion = SHOPIFY_API_VERSION || "2025-07";
 
-  // Para pipelines: JSON directo
   if (format === "json") {
-    return NextResponse.json({
+    return jsonNoStore(200, {
       ok: true,
       shop,
       api_version: apiVersion,
@@ -234,11 +304,14 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // Página mínima (token enmascarado)
-  const masked = `${access_token.slice(0,6)}…${access_token.slice(-4)}`;
-  const jsonStr = JSON.stringify({ access_token, scope, shop, api_version: apiVersion, saved_at: new Date().toISOString() }, null, 2);
+  const masked = `${access_token.slice(0, 6)}…${access_token.slice(-4)}`;
+  const jsonStr = JSON.stringify(
+    { access_token, scope, shop, api_version: apiVersion, saved_at: new Date().toISOString() },
+    null,
+    2
+  );
 
-  return new NextResponse(
+  return htmlNoStore(
     `<!doctype html><html><body style="font-family:system-ui;padding:28px">
       <h1>✅ OAuth OK</h1>
       <p><b>Tienda:</b> ${shop}</p>
@@ -247,7 +320,7 @@ export async function GET(req: NextRequest) {
       <p><b>Access token:</b> <span style="color:#0a7f3f">${masked}</span></p>
       <p><a href="data:application/json;charset=utf-8,${encodeURIComponent(jsonStr)}" download="${shop.replace(/\./g,"_")}.json">Descargar JSON</a></p>
       <p>Para pipelines, vuelve con <code>&format=json</code>.</p>
-    </body></html>`,
-    { headers: { "Content-Type": "text/html; charset=utf-8" } }
+    </body></html>`
   );
 }
+
