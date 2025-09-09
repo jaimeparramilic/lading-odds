@@ -41,6 +41,7 @@ export function restClient(shop: string, accessToken: string) {
   });
 }
 
+
 export function graphqlClient(shop: string, accessToken: string) {
   return new shopify.clients.Graphql({
     session: {
