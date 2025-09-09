@@ -1,7 +1,8 @@
+// app/api/shopify/oauth/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
-export const runtime = "nodejs"; // usar Node (no Edge) para crypto estable
+export const runtime = "nodejs"; // Node para crypto estable
 
 const {
   SHOPIFY_API_KEY,
@@ -11,51 +12,55 @@ const {
   APP_URL: RAW_APP_URL,
 } = process.env;
 
-// Normaliza APP_URL (sin "/" final)
+// Normaliza APP_URL (quita "/" finales)
 const APP_URL = (RAW_APP_URL || "").replace(/\/+$/, "");
 
-// Helper: comparación constante entre hex
+// -------- Helpers HMAC --------
 function safeEqualHex(a: string, b: string) {
   try { return crypto.timingSafeEqual(Buffer.from(a, "utf8"), Buffer.from(b, "utf8")); }
   catch { return false; }
 }
 
-// Verificación HMAC dual:
-//  A) valores decodificados (URLSearchParams) → msgA/digA
-//  B) query string cruda (sin decodificar) → msgB/digB
+// Parámetros *locales* que NO deben entrar en la firma (no los manda Shopify)
+const LOCAL_PARAMS = new Set(["hmac", "signature", "debug", "format", "check", "dryrun"]);
+
+/** Verificación dual:
+ *  A) valores decodificados (URLSearchParams) → msgA/digA
+ *  B) query string cruda (sin decodificar) → msgB/digB
+ *  Se acepta si cualquiera coincide; ignora LOCAL_PARAMS en ambos casos
+ */
 function verifyHmacDual(url: URL, secret: string) {
   const given = url.searchParams.get("hmac") || "";
 
-  // ---- Variante A: decoded ----
+  // --- A) decoded ---
   const keysA = Array.from(url.searchParams.keys())
-    .filter(k => k !== "hmac" && k !== "signature")
-    .sort((a,b) => (a < b ? -1 : a > b ? 1 : 0));
+    .filter(k => !LOCAL_PARAMS.has(k))
+    .sort((a,b) => a < b ? -1 : a > b ? 1 : 0);
 
   const pairsA: string[] = [];
   for (const k of keysA) {
     const vs = url.searchParams.getAll(k);
-    for (const v of vs) pairsA.push(`${k}=${v}`); // v ya viene decodificado
+    for (const v of vs) pairsA.push(`${k}=${v}`);
   }
   const msgA = pairsA.join("&");
   const digA = crypto.createHmac("sha256", secret).update(msgA, "utf8").digest("hex");
   const sameA = safeEqualHex(digA, given);
 
-  // ---- Variante B: raw ----
+  // --- B) raw ---
   const full = url.toString();
   const rawQuery = full.includes("?") ? full.split("?", 2)[1] : "";
   const parts = rawQuery ? rawQuery.split("&").filter(Boolean) : [];
 
-  const kvRaw: Array<{k: string; v: string}> = [];
+  const kvRaw: Array<{ k: string; v: string }> = [];
   for (const p of parts) {
     const eq = p.indexOf("=");
     const k = eq >= 0 ? p.slice(0, eq) : p;
     const v = eq >= 0 ? p.slice(eq + 1) : "";
-    if (k === "hmac" || k === "signature") continue;
-    kvRaw.push({ k, v }); // SIN decodificar
+    if (LOCAL_PARAMS.has(k)) continue;
+    kvRaw.push({ k, v }); // NO decodificar
   }
-  kvRaw.sort((a, b) => (a.k < b.k ? -1 : a.k > b.k ? 1 : 0));
-  const pairsB = kvRaw.map(({k, v}) => `${k}=${v}`);
-  const msgB = pairsB.join("&");
+  kvRaw.sort((a,b) => a.k < b.k ? -1 : a.k > b.k ? 1 : 0);
+  const msgB = kvRaw.map(({k,v}) => `${k}=${v}`).join("&");
   const digB = crypto.createHmac("sha256", secret).update(msgB, "utf8").digest("hex");
   const sameB = safeEqualHex(digB, given);
 
@@ -63,11 +68,11 @@ function verifyHmacDual(url: URL, secret: string) {
     ok: sameA || sameB,
     given_hmac: given,
     variant: sameA ? "A" : sameB ? "B" : "none",
-    // para debug profundo:
-    decoded: { keys: keysA, pairs: pairsA, message: msgA, digest: digA, same: sameA },
-    raw:     { raw_query: rawQuery, pairs: pairsB, message: msgB, digest: digB, same: sameB },
+    decoded: { message: msgA, digest: digA, same: sameA },
+    raw:     { message: msgB, digest: digB, same: sameB },
   };
 }
+// --------------------------------
 
 export async function GET(req: NextRequest) {
   if (!SHOPIFY_API_KEY || !SHOPIFY_API_SECRET || !SHOPIFY_SCOPES || !APP_URL) {
@@ -86,21 +91,21 @@ export async function GET(req: NextRequest) {
   const secure = process.env.NODE_ENV === "production";
   const fullUrl = req.url;
   const url = new URL(fullUrl);
+
   const shop   = url.searchParams.get("shop") || req.cookies.get("shopify_shop")?.value || "";
   const code   = url.searchParams.get("code");
   const state  = url.searchParams.get("state");
-  const format = url.searchParams.get("format");
+  const format = url.searchParams.get("format"); // "json" opcional
   const check  = url.searchParams.get("check");
   const dryrun = url.searchParams.get("dryrun");
-  const debug1 = url.searchParams.get("debug") === "1";
-  const debug2 = url.searchParams.get("debug") === "2";
+  const debug  = url.searchParams.get("debug"); // "1" o "2"
 
   const redirectUri = `${APP_URL}/api/shopify/oauth`;
 
-  // Log SIEMPRE el URL completo que llega (útil para ver el callback exacto)
+  // Log de toda request (útil para ver el callback exacto)
   console.log("[Shopify OAuth] Incoming URL:", fullUrl);
 
-  // --- Diagnóstico (no redirige) ---
+  // ---------- Diagnóstico (no redirige) ----------
   if (!code && check === "1") {
     const example =
       shop && shop.endsWith(".myshopify.com")
@@ -116,7 +121,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // --- Inicio de flujo ---
+  // ---------- Inicio de flujo ----------
   if (!code) {
     if (!shop.endsWith(".myshopify.com")) {
       return NextResponse.json({ error: "Parámetro 'shop' inválido. Ej: tu-tienda.myshopify.com", shop }, { status: 400 });
@@ -143,7 +148,7 @@ export async function GET(req: NextRequest) {
     return res;
   }
 
-  // --- Callback ---
+  // ---------- Callback ----------
   if (!shop.endsWith(".myshopify.com")) {
     return NextResponse.json({ error: "Shop inválido", shop }, { status: 400 });
   }
@@ -151,8 +156,8 @@ export async function GET(req: NextRequest) {
   const stateCookie = req.cookies.get("shopify_oauth_state")?.value || "";
   const shopCookie  = req.cookies.get("shopify_shop")?.value || "";
 
-  // Si piden debug profundo, devolvemos TODO lo útil (antes de validar HMAC)
-  if (debug2) {
+  // Debug profundo antes de validar state/HMAC (para inspección)
+  if (debug === "2") {
     const vd = verifyHmacDual(url, SHOPIFY_API_SECRET);
     return NextResponse.json({
       note: "DEBUG2: inspección completa del callback",
@@ -167,31 +172,33 @@ export async function GET(req: NextRequest) {
       cookies: { stateCookie, shopCookie },
       hmac: {
         given: vd.given_hmac,
-        matched_variant: vd.variant, // "A", "B" o "none"
-        variant_A: vd.decoded,
-        variant_B: vd.raw,
+        matched_variant: vd.variant,  // "A" | "B" | "none"
+        variant_A: vd.decoded,        // { message, digest, same }
+        variant_B: vd.raw,            // { message, digest, same }
       },
       redirect_uri_expected: redirectUri,
     });
   }
 
+  // State y shop deben coincidir
   if (!state || state !== stateCookie || !shopCookie || shopCookie !== shop) {
     return NextResponse.json({ error: "STATE/SHOP inválidos", state, stateCookie, shopCookie, shop }, { status: 400 });
   }
 
-  // Modo debug1: muestra sólo msg/HMACs (sin canjear token)
-  if (debug1) {
+  // Debug simple de HMAC (sin canjear token)
+  if (debug === "1") {
     const vd = verifyHmacDual(url, SHOPIFY_API_SECRET);
     return NextResponse.json({
       note: "DEBUG1 HMAC",
       shop,
       given_hmac: vd.given_hmac,
       matched_variant: vd.variant,
-      variant_A: vd.decoded, // { keys, pairs, message, digest, same }
-      variant_B: vd.raw,     // { raw_query, pairs, message, digest, same }
+      variant_A: vd.decoded,
+      variant_B: vd.raw,
     });
   }
 
+  // Verificar HMAC
   const vd = verifyHmacDual(url, SHOPIFY_API_SECRET);
   if (!vd.ok) {
     return NextResponse.json({ error: "HMAC inválido" }, { status: 400 });
@@ -215,6 +222,7 @@ export async function GET(req: NextRequest) {
   const scope: string = data.scope || "";
   const apiVersion = SHOPIFY_API_VERSION || "2025-07";
 
+  // Para pipelines: JSON directo
   if (format === "json") {
     return NextResponse.json({
       ok: true,
@@ -226,6 +234,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
+  // Página mínima (token enmascarado)
   const masked = `${access_token.slice(0,6)}…${access_token.slice(-4)}`;
   const jsonStr = JSON.stringify({ access_token, scope, shop, api_version: apiVersion, saved_at: new Date().toISOString() }, null, 2);
 
