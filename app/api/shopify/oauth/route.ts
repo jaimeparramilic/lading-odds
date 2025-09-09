@@ -15,8 +15,9 @@ const {
 // Normaliza APP_URL quitando barras finales (evita //api y mismatches)
 const APP_URL = (RAW_APP_URL || "").replace(/\/+$/, "");
 
-// Verificación HMAC de OAuth (excluir hmac/signature, ordenar por clave, k=v unidos con &)
-function verifyHmac(url: URL, secret: string): boolean {
+// Verificación HMAC de OAuth (excluir hmac/signature, ordenar por clave, pares k=v unidos con &)
+// Si una clave aparece varias veces, se generan múltiples "k=v" (no se juntan con coma).
+function verifyHmac(url: URL, secret: string) {
   const given = url.searchParams.get("hmac") || "";
   const keys = Array.from(url.searchParams.keys())
     .filter((k) => k !== "hmac" && k !== "signature")
@@ -31,11 +32,13 @@ function verifyHmac(url: URL, secret: string): boolean {
   const message = pairs.join("&");
   const digest = crypto.createHmac("sha256", secret).update(message, "utf8").digest("hex");
 
+  let same = false;
   try {
-    return crypto.timingSafeEqual(Buffer.from(digest, "utf8"), Buffer.from(given, "utf8"));
+    same = crypto.timingSafeEqual(Buffer.from(digest, "utf8"), Buffer.from(given, "utf8"));
   } catch {
-    return false;
+    same = false;
   }
+  return { same, message, given, digest };
 }
 
 export async function GET(req: NextRequest) {
@@ -61,10 +64,11 @@ export async function GET(req: NextRequest) {
   const format = url.searchParams.get("format"); // "json" opcional
   const check = url.searchParams.get("check");   // "1" → diagnóstico (no redirige)
   const dryrun = url.searchParams.get("dryrun"); // "1" → imprime authorizeUrl (no redirige)
+  const debug = url.searchParams.get("debug") === "1"; // en callback: muestra firma/HMACs
 
   const redirectUri = `${APP_URL}/api/shopify/oauth`; // Debe estar en Allowed redirection URL(s)
 
-  // --- Diagnóstico sin tocar Shopify ---
+  // --- Diagnóstico sin tocar Shopify (NO redirige) ---
   if (!code && check === "1") {
     const example =
       shop && shop.endsWith(".myshopify.com")
@@ -106,7 +110,7 @@ export async function GET(req: NextRequest) {
     console.log("[Shopify OAuth] redirectUri:", redirectUri);
     console.log("[Shopify OAuth] authorizeUrl:", authorizeUrl);
 
-    // Modo dryrun: devuelve authorizeUrl en texto sin redirigir
+    // Modo dryrun: devuelve authorizeUrl en texto (NO redirige)
     if (dryrun === "1") {
       return new NextResponse(authorizeUrl, {
         status: 200,
@@ -147,7 +151,20 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  if (!verifyHmac(url, SHOPIFY_API_SECRET)) {
+  const { same, message, given, digest } = verifyHmac(url, SHOPIFY_API_SECRET);
+  if (debug) {
+    // Modo debug: muestra exactamente qué firmamos y ambos HMACs (no canjea token)
+    return NextResponse.json({
+      note: "DEBUG HMAC (no dejes esto activado en prod pública)",
+      shop,
+      message,          // string canónico que firmamos
+      given_hmac: given,
+      calculated_hmac: digest,
+      same,
+    });
+  }
+
+  if (!same) {
     return NextResponse.json({ error: "HMAC inválido" }, { status: 400 });
   }
 

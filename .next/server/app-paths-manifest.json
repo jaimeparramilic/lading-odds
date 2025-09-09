@@ -1,8 +1,8 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
+  "/components/landing/route": "app/components/landing/route.js",
   "/terminos/page": "app/terminos/page.js",
-  "/api/shopify/oauth/route": "app/api/shopify/oauth/route.js",
   "/privacidad/page": "app/privacidad/page.js",
-  "/components/landing/route": "app/components/landing/route.js"
+  "/api/shopify/oauth/route": "app/api/shopify/oauth/route.js"
 }
