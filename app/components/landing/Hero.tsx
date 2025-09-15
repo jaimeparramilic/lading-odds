@@ -35,17 +35,19 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center flex flex-col items-center self-start -mt-4 md:-mt-6 lg:-mt-8"
+          className="text-center flex flex-col items-center self-start -mt-2 md:-mt-3 lg:-mt-4"
         >
-          {/* Logo + pill */}
-          <div className="flex items-center justify-center gap-4 mb-2">
+          {/* Logo + pills */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-1">
             <img
               src="/logos/odds.png"
               alt="ODDS logo"
-              className="h-20 w-auto lg:h-40"
+              className="h-16 md:h-20 lg:h-24 w-auto"
             />
             <Pill>Performance para PyMEs</Pill>
+            <Pill>Agentes + supervisión humana</Pill>
           </div>
+
 
           {/* Headline */}
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight max-w-xl">
@@ -55,9 +57,10 @@ export default function Hero() {
             </span>.
           </h1>
 
-          {/* Subtítulo */}
+          {/* Subtítulo (actualizado para hacerlo explícito) */}
           <p className="mt-4 text-lg opacity-90 max-w-prose">
-            Para PyMEs que gastan en anuncios pero no generan ventas.
+            Automatizamos tareas repetitivas con agentes de IA mientras un equipo humano supervisa
+            y valida para garantizar calidad, consistencia y resultados.
           </p>
 
           {/* CTAs */}
@@ -73,6 +76,9 @@ export default function Hero() {
               </Button>
             </a>
           </div>
+          <p className="mt-2 text-xs opacity-60 max-w-prose">
+            *Agentes cognitivos ejecutan. Personas supervisan. Control de calidad garantizado.
+          </p>
         </motion.div>
 
         {/* Bloque derecho (calculadora) */}
@@ -131,7 +137,9 @@ export default function Hero() {
                     </p>
                   </div>
                 </div>
-                <p className="text-xs opacity-60 mt-2">*Ejemplo ilustrativo.</p>
+                <p className="text-xs opacity-60 mt-2">
+                  *Ejemplo ilustrativo. Los agentes automatizan ejecución; las revisiones humanas aseguran la calidad.
+                </p>
               </div>
             </CardContent>
           </Card>
