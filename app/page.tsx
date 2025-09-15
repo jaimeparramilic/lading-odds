@@ -3,6 +3,7 @@
 import Hero from '../app/components/landing/Hero';
 import Credentials from '../app/components/landing/Credentials';
 import Services from '../app/components/landing/Services';
+import Agents from '../app/components/landing/Agents'; // 👈 nuevo
 import Plans from '../app/components/landing/Plans';
 import Process from '../app/components/landing/Process';
 import FAQ from '../app/components/landing/FAQ';
@@ -20,6 +21,7 @@ export default function Page() {
       <Hero />
       <Credentials />
       <Services />
+      <Agents />      {/* 👈 aquí */}
       <Plans />
       <Process />
       <FAQ />
@@ -28,4 +30,3 @@ export default function Page() {
     </div>
   );
 }
-
