@@ -1,141 +1,195 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Section } from './Section';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '../../../components/ui/input';
-import { Textarea } from '../../../components/ui/textarea';
-import { Button } from '../../../components/ui/button';
-import { Phone, Mail, MessageSquare } from 'lucide-react';
 import { Pill } from './Pill';
+import { Mail, MessageSquare, User, Building2, Globe, Send, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export default function Contact() {
-  const [loading, setLoading] = useState(false);
-  const [ok, setOk] = useState<null | boolean>(null);
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setOk(null);
-
-    const fd = new FormData(e.currentTarget);
-
-    // Honeypot (anti-spam)
-    if ((fd.get('website') as string)?.trim()) {
-      setLoading(false);
-      setOk(false);
-      return;
-    }
-
-    const payload = {
-      kind: 'lead', // 👈 nuevo, para que el router sepa que es un lead
-      name: (fd.get('name') as string)?.trim(),
-      email: (fd.get('email') as string)?.trim(),
-      company: (fd.get('company') as string)?.trim(),
-      budget: fd.get('budget'),
-      goal: (fd.get('goal') as string)?.trim(),
-      source: 'odds.la/contact',
-    };
-
-
-    if (!payload.name || !payload.email || !payload.goal || !payload.budget) {
-      setLoading(false);
-      setOk(false);
-      return;
-    }
-
-    try {
-      // ⬇️ POST al mismo folder (route en app/components/landing/route.ts)
-      const res = await fetch('/components/landing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      setOk(res.ok);
-      if (res.ok) (e.target as HTMLFormElement).reset();
-    } catch {
-      setOk(false);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const whatsappHref =
-    'https://wa.me/573134587775?text=Hola%20ODDS,%20quiero%20un%20diagn%C3%B3stico%20gratuito%20de%2020%20min.%20Mi%20negocio%20es%3A%20';
-
   return (
-    <Section id="contact" className="py-12">
-      <div className="grid lg:grid-cols-2 gap-10 items-start">
-        {/* Texto + canales */}
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Conversemos</h2>
-          <p className="mt-2 opacity-80 max-w-prose">
-            Agenda un <strong>diagnóstico gratuito de 20 minutos</strong>. Te mostramos
-            dónde se pierde tu inversión y proponemos el plan de mayor impacto a corto plazo.
-          </p>
-          <div className="mt-6 grid sm:grid-cols-2 gap-3 text-sm">
-            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-              <Pill><Phone className="h-3.5 w-3.5 mr-1" /> WhatsApp: +57&nbsp;313&nbsp;458&nbsp;7775</Pill>
-            </a>
-            <a href="mailto:jaimeparramilic@gmail.com">
-              <Pill><Mail className="h-3.5 w-3.5 mr-1" /> jaimeparramilic@gmail.com</Pill>
-            </a>
-          </div>
-        </div>
+    <Section id="contact" className="py-24 bg-slate-900 relative overflow-hidden">
+      {/* Elementos de fondo para profundidad (Efecto 'Glow') */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl"></div>
+      </div>
 
-        {/* Formulario */}
-        <Card className="shadow-sm">
-          <CardContent className="pt-6">
-            <form onSubmit={onSubmit} className="grid gap-3">
-              {/* Honeypot (oculto) */}
-              <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* COLUMNA IZQUIERDA (5 columnas): El Pitch de venta */}
+          <div className="lg:col-span-5 flex flex-col">
+            <div className="inline-flex items-center w-fit rounded-full px-3 py-1 text-xs font-bold text-indigo-300 bg-indigo-900/50 border border-indigo-700/50 mb-6 uppercase tracking-wider">
+              <MessageSquare className="w-3 h-3 mr-2" />
+              Contacto Directo
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
+              Deje de adivinar.<br />
+              Empiece a <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">medir</span>.
+            </h2>
+            
+            <p className="text-lg text-slate-400 leading-relaxed mb-8">
+              Analizaremos su huella digital antes de la primera llamada. Llegaremos con datos duros y oportunidades de optimización, no con presentaciones genéricas.
+            </p>
 
-              <Input name="name" placeholder="Nombre" required autoComplete="name" />
-              <Input type="email" name="email" placeholder="Email" required autoComplete="email" />
-              <Input name="company" placeholder="Empresa / Tienda (opcional)" autoComplete="organization" />
+            {/* Lista de beneficios pequeña para reforzar confianza */}
+            <div className="space-y-3 mb-10 border-l-2 border-slate-800 pl-6">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-indigo-400" />
+                <span className="text-slate-300 text-sm">Auditoría técnica preliminar incluida</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-indigo-400" />
+                <span className="text-slate-300 text-sm">Respuesta en menos de 24h hábiles</span>
+              </div>
+            </div>
 
-              <select
-                name="budget"
-                className="border rounded-md px-3 py-2 text-sm"
-                required
-                defaultValue=""
-              >
-                <option value="" disabled>Inversión mensual en pauta (USD)</option>
-                <option value="400-800">USD 400–800</option>
-                <option value="800-1500">USD 800–1,500</option>
-                <option value="1500-3000">USD 1,500–3,000</option>
-                <option value="3000+">USD 3,000+</option>
-              </select>
-
-              <Textarea
-                name="goal"
-                placeholder="Cuéntanos tu objetivo principal (ej. más ventas, bajar CPA, mejorar medición)"
-                rows={4}
-                required
-              />
-
-              <Button type="submit" className="gap-2" disabled={loading} aria-busy={loading}>
-                {loading ? 'Enviando…' : 'Enviar'} <MessageSquare className="h-4 w-4" />
-              </Button>
-
-              {/* Estados */}
-              {ok === true && (
-                <p className="text-sm text-green-600">¡Gracias! Te contactaremos en menos de 24&nbsp;h.</p>
-              )}
-              {ok === false && (
-                <p className="text-sm text-red-600">
-                  Ocurrió un problema al enviar. Escríbenos por WhatsApp o email mientras lo resolvemos.
-                </p>
-              )}
-
-              <p className="text-xs opacity-60">
-                Al enviar aceptas ser contactado por email o WhatsApp. Cuidamos tus datos; no hacemos spam.
+            {/* Email Link (Más sutil y elegante) */}
+            <div className="mt-auto">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
+                O escriba directamente a:
               </p>
-            </form>
-          </CardContent>
-        </Card>
+              <a 
+                href="mailto:contacto@marketinagents-odds.com" 
+                className="group flex items-center gap-3 text-white hover:text-indigo-400 transition-colors"
+              >
+                <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-500 transition-all duration-300">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <span className="text-lg font-medium border-b border-transparent group-hover:border-indigo-400 transition-all">
+                  contacto@marketinagents-odds.com
+                </span>
+              </a>
+            </div>
+          </div>
+
+          {/* COLUMNA DERECHA (7 columnas): El Formulario (Card Flotante) */}
+          <div className="lg:col-span-7">
+            <div className="bg-white rounded-2xl p-8 md:p-10 shadow-2xl shadow-black/20 relative overflow-hidden">
+               {/* Decoración superior sutil */}
+               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
+
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                Solicitar Propuesta
+              </h3>
+              <p className="text-slate-500 text-sm mb-8">
+                Complete el formulario para calificar a una sesión estratégica.
+              </p>
+
+              <form className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Nombre */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="name" className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                      Nombre completo
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        placeholder="Juan Pérez"
+                        className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Empresa */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="company" className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                      Empresa
+                    </label>
+                    <div className="relative">
+                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <Building2 className="w-4 h-4" />
+                      </div>
+                      <input
+                        id="company"
+                        name="company"
+                        type="text"
+                        placeholder="Su Empresa SAS"
+                        className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="space-y-1.5">
+                  <label htmlFor="email" className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                    Correo corporativo
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="juan@suempresa.com"
+                      className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Website */}
+                <div className="space-y-1.5">
+                  <label htmlFor="website" className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                    Sitio Web / URL
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <Globe className="w-4 h-4" />
+                    </div>
+                    <input
+                      id="website"
+                      name="website"
+                      type="url"
+                      placeholder="https://www.suempresa.com"
+                      className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Mensaje */}
+                <div className="space-y-1.5">
+                  <label htmlFor="message" className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                    Desafío actual
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={3}
+                    placeholder="Ej: Necesitamos mejorar el ROAS en Facebook..."
+                    className="w-full p-3 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400 resize-none"
+                    required
+                  />
+                </div>
+
+                {/* Botón Submit - Full Width y Prominente */}
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg shadow-indigo-200 hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm uppercase tracking-wide"
+                >
+                  Enviar Solicitud <ArrowRight className="w-4 h-4" />
+                </button>
+
+                <p className="text-center text-[10px] text-slate-400">
+                  Sus datos están protegidos bajo NDA.
+                </p>
+              </form>
+            </div>
+          </div>
+
+        </div>
       </div>
     </Section>
   );
 }
-

@@ -8,11 +8,12 @@ export default function Credentials() {
       {/* Título + descripción */}
       <div className="text-center max-w-3xl mx-auto">
         <h2 className="text-3xl font-bold tracking-tight">
-          Confianza respaldada por grandes marcas
+          Tecnología probada por gigantes. Ahora al servicio de su PyME.
         </h2>
         <p className="mt-3 opacity-80">
-          Más de 13 años liderando audiencias, performance y analítica para marcas globales en
-          LATAM, EE.UU. y Canadá.
+          No improvisamos. Nuestro equipo ha gestionado presupuestos millonarios para Amazon,
+          BMW y CVS. Traemos esa misma ingeniería de decisión (ODDS) para optimizar
+          cada centavo de su inversión.
         </p>
       </div>
 
@@ -27,13 +28,12 @@ export default function Credentials() {
       {/* Caso destacado */}
       <div className="mt-10 bg-neutral-50 border rounded-xl p-6 shadow-sm text-center">
         <p className="italic text-neutral-700 max-w-2xl mx-auto">
-          “Durante la pandemia asesoramos a Jorge Enrique Abello en la creación de 
-          <strong> Night Night</strong>, un programa digital que se monetizó con pauta 
-          en tiempo récord. Datos, estrategia y creatividad hicieron posible el éxito 
-          en plena crisis.”
+          “Transformamos la marca personal de Jorge Enrique Abello en un{' '}
+          <strong>activo digital rentable</strong>. Diseñamos <strong>Night Night</strong>, una
+          estrategia de monetización que rompió récords de audiencia y venta en plena
+          crisis global.”
         </p>
       </div>
     </Section>
   );
 }
-

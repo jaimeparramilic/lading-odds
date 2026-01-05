@@ -21,11 +21,10 @@ export default function Page() {
       <Hero />
       <Credentials />
       <Services />
-      <Agents />      {/* 👈 aquí */}
+      <Agents />     
       <Plans />
-      <Process />
-      <FAQ />
       <About />
+      <FAQ />
       <Contact />
     </div>
   );
