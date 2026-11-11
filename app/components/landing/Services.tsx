@@ -28,7 +28,7 @@ export default function Services() {
               <div className="p-2.5 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
                 <BarChart className="h-6 w-6 text-indigo-700" />
               </div>
-              Diagnóstico de Rentabilidad
+              Receipt-Level Intelligence
             </CardTitle>
           </CardHeader>
           
@@ -36,16 +36,13 @@ export default function Services() {
           <CardContent className="p-6 md:p-8">
             <ul className="space-y-4">
               <CheckItem>
-                <strong>Diagnóstico Profundo (1 Semana):</strong> Auditamos la salud financiera de su negocio a fondo, no por encima.
+                Ingest deterministic sales data at a person and receipt level
               </CheckItem>
               <CheckItem>
-                Detectamos <strong>fugas de presupuesto</strong> y errores estructurales que nadie más vio.
+                Real-time automated auditing of ad accounts
               </CheckItem>
               <CheckItem>
-                Auditoría forense de Data: Validamos que sus píxeles midan ventas reales, no clics fantasma.
-              </CheckItem>
-              <CheckItem>
-                Entregable: Un <strong>Plan de Acción Táctico</strong> diseñado para recuperar dinero y escalar.
+                Profitability analysis driven by LLMs
               </CheckItem>
             </ul>
           </CardContent>
@@ -61,23 +58,20 @@ export default function Services() {
               <div className="p-2.5 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
                 <Wrench className="h-6 w-6 text-indigo-700" /> 
               </div>
-              Infraestructura de Ventas
+              AI Strategy & Creative
             </CardTitle>
           </CardHeader>
 
           <CardContent className="p-6 md:p-8">
             <ul className="space-y-4">
               <CheckItem>
-                Despliegue técnico avanzado sin que usted toque una línea de código.
+                Automated generation of communication strategies
               </CheckItem>
               <CheckItem>
-                Estructura multicanal (Meta, Google, TikTok) configurada para <strong>conversión</strong>, no para tráfico.
+                Dynamic creation of ad creatives and web content
               </CheckItem>
               <CheckItem>
-                Integración nativa con su e-commerce (Shopify, VTEX, Woo) para trazar cada peso.
-              </CheckItem>
-              <CheckItem>
-                Implementación de creativos de alto impacto validados por <strong>inteligencia de mercado</strong>.
+                Native integrations with Shopify, VTEX, and CMS
               </CheckItem>
             </ul>
           </CardContent>
@@ -90,23 +84,20 @@ export default function Services() {
                <div className="p-2.5 bg-indigo-50 rounded-lg flex items-center justify-center shrink-0">
                 <Workflow className="h-6 w-6 text-indigo-700" />
                </div>
-               Ejecución & Escalamiento
+               Autonomous Media Planning
             </CardTitle>
           </CardHeader>
           
           <CardContent className="p-6 md:p-8">
             <ul className="space-y-4">
               <CheckItem>
-                <strong>Optimización diaria (IA):</strong> Algoritmos que ajustan la puja 24/7 para bajar el CPA.
+                Instant generation of cross-platform media plans
               </CheckItem>
               <CheckItem>
-                <strong>Estrategia experta (Humanos):</strong> Ex-directivos supervisan la calidad del crecimiento.
+                24/7 algorithmic campaign optimization
               </CheckItem>
               <CheckItem>
-                Reportes financieros en tiempo real. Eliminamos las métricas de vanidad.
-              </CheckItem>
-              <CheckItem>
-                Actuamos como su equipo interno de Performance. <strong>Sin carga prestacional</strong> ni despidos.
+                Direct API connections to Meta and Google Ads
               </CheckItem>
             </ul>
           </CardContent>

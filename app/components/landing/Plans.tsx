@@ -21,7 +21,7 @@ type Plan = {
 
 const planTiers: Plan[] = [
   {
-    name: 'Auditoría de Desbloqueo',
+    name: 'Data Ingestion & Audit',
     tagline: 'Para el que duda o quiere probar antes de casarse.',
     badge: 'Sin Compromiso',
     features: [
@@ -31,10 +31,10 @@ const planTiers: Plan[] = [
       'Entregable: Plan de Acción Táctico para su equipo',
       'Ideal para validar la calidad de ODDS sin ataduras',
     ],
-    buttonText: 'Solicitar Auditoría Única',
+    buttonText: 'Contact Sales',
   },
   {
-    name: 'Growth Partner (ODDS)',
+    name: 'Full-Cycle AI Agency',
     tagline: 'Para el que quiere delegar y facturar.',
     badge: 'Socio de Crecimiento',
     featured: true,
@@ -45,10 +45,10 @@ const planTiers: Plan[] = [
       'Reportes de rentabilidad en tiempo real',
       'Acceso total a nuestro stack tecnológico enterprise',
     ],
-    buttonText: 'Aplicar para ser Partner',
+    buttonText: 'Contact Sales',
   },
   {
-    name: 'Consultoría In-House',
+    name: 'Enterprise Multi-Agent System',
     tagline: 'Para marcas que necesitan cerebro, no manos.',
     badge: 'Solo bajo cupo',
     features: [
@@ -58,7 +58,7 @@ const planTiers: Plan[] = [
       'Estrategias de expansión internacional',
       'Soporte directo vía Slack/WhatsApp con Dirección',
     ],
-    buttonText: 'Consultar Disponibilidad',
+    buttonText: 'Contact Sales',
   },
 ];
 
@@ -79,7 +79,7 @@ export default function Plans() {
     <Section id="plans" className="py-24 bg-white">
       <div className="max-w-4xl mx-auto text-center mb-16 px-4">
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
-          ¿Cómo prefiere iniciar?
+          Hire Your AI Agency
         </h2>
         <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
           No creemos en las tallas únicas. Elija la velocidad y el nivel de profundidad que su negocio necesita hoy.
@@ -135,7 +135,7 @@ export default function Plans() {
                     </>
                   ) : (
                     <div className="text-2xl font-bold text-slate-900 tracking-tight">
-                      Cotización a Medida
+                      Contact Sales
                     </div>
                   )}
                 </div>

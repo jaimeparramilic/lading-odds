@@ -8,17 +8,16 @@ export default function Credentials() {
       {/* Título + descripción */}
       <div className="text-center max-w-3xl mx-auto">
         <h2 className="text-3xl font-bold tracking-tight">
-          Tecnología probada por gigantes. Ahora al servicio de su PyME.
+          Built by experts. Executed by autonomous agents.
         </h2>
         <p className="mt-3 opacity-80">
-          No improvisamos. Nuestro equipo ha gestionado presupuestos millonarios para Amazon,
-          BMW y CVS. Traemos esa misma ingeniería de decisión (ODDS) para optimizar
-          cada centavo de su inversión.
+          Our team engineered data-driven growth for Google, Amazon, BMW, and CVS. Now, our platform does it autonomously for your brand.
         </p>
       </div>
 
       {/* Logos */}
       <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 items-center justify-items-center opacity-80">
+        <Image src="/logos/google.png" alt="Google" width={100} height={40} className="h-10 w-auto" />
         <Image src="/logos/amazon.png" alt="Amazon" width={100} height={40} className="h-10 w-auto" />
         <Image src="/logos/bmw.png" alt="BMW" width={100} height={40} className="h-10 w-auto" />
         <Image src="/logos/cvs.png" alt="CVS" width={100} height={40} className="h-10 w-auto" />

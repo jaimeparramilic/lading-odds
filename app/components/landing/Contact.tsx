@@ -72,8 +72,8 @@ export default function Contact() {
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
-              Deje de adivinar.<br />
-              Empiece a <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">medir</span>.
+              Stop paying agencies.<br />
+              Start <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300">deploying agents.</span>
             </h2>
             
             <p className="text-lg text-slate-400 leading-relaxed mb-8">
@@ -98,14 +98,14 @@ export default function Contact() {
                 O escriba directamente a:
               </p>
               <a 
-                href="mailto:contacto@marketinagents-odds.com" 
+                href="mailto:jaime.parra@oddsbots.online" 
                 className="group flex items-center gap-4 text-white hover:text-indigo-400 transition-colors"
               >
                 <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-500 transition-all duration-300">
                   <Mail className="w-5 h-5" />
                 </div>
                 <span className="text-lg font-medium border-b border-transparent group-hover:border-indigo-400 transition-all">
-                  contacto@marketinagents-odds.com
+                  jaime.parra@oddsbots.online
                 </span>
               </a>
             </div>
@@ -135,7 +135,7 @@ export default function Contact() {
               ) : (
                 <>
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                    Solicitar Propuesta
+                    Request Platform Access
                   </h3>
                   <p className="text-slate-500 text-sm mb-8">
                     Complete el formulario para calificar a una sesión estratégica.

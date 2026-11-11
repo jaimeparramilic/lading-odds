@@ -69,22 +69,21 @@ export default function Hero() {
              
              {/* Pill (Badge) */}
              <Pill className="bg-white border-slate-200 shadow-sm text-slate-600 text-xs md:text-sm py-1.5 px-4">
-                Tecnología de Grandes. Resultados Reales.
+                The Full-Cycle AI Media & Creative Agency.
              </Pill>
           </div>
 
           {/* H1: COPY PRINCIPAL */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-tight max-w-4xl">
-            ODDS. IA para humanos.{' '}
+            ODDS. The Multi-Agent Platform{' '}
             <span className="block text-indigo-900 mt-2">
-              Hacemos crecer tu negocio.
+              That Replaces Your Agency.
             </span>
           </h1>
 
           {/* P: COPY SECUNDARIO */}
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl font-normal">
-            Su empresa no vive de "likes", vive de <strong className="text-slate-900 font-semibold">matemática financiera</strong>. 
-            Deje de apostar en pauta y active un sistema de ventas predecible. Nosotros ponemos la IA para maximizar la eficiencia y los expertos (ex-Amazon) para asegurar el retorno de inversión.
+            We ingest sales data at a <strong className="text-slate-900 font-semibold">person and receipt level</strong> to power our multi-agent platform. ODDS autonomously generates communication strategies, builds dynamic media plans, and optimizes cross-platform campaigns 24/7. The entire media and creative cycle, in one algorithmic ecosystem.
           </p>
 
           {/* CTAs */}
@@ -105,7 +104,7 @@ export default function Hero() {
                   variant="outline"
                   className="h-14 px-8 text-base font-bold bg-white hover:bg-slate-50 text-slate-700 border-slate-300 hover:border-slate-400 hover:text-slate-900 rounded-xl transition-all w-full sm:w-auto flex items-center justify-center gap-2"
                 >
-                  Hablar con un Estratega
+                  Book a Demo
                   <UserCheck className="h-5 w-5" />
                 </Button>
               </a>
@@ -191,7 +190,7 @@ export default function Hero() {
                 <div className="relative z-10 flex items-end justify-between mb-6">
                   <div>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5">
-                      Ventas Proyectadas
+                      Agent-Driven Growth
                     </p>
                     <p className="text-4xl font-bold tracking-tight text-white leading-none">
                       {totalSales.toLocaleString('en-US')} 

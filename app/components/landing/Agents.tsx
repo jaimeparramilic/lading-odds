@@ -52,7 +52,7 @@ function AgentCard({ title, desc, href, Icon, tag }: AgentCardProps) {
 
       {/* CTA textual: Aparece en índigo */}
       <div className="mt-5 pt-4 border-t border-slate-50 flex items-center text-xs font-bold text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">
-        Probar ahora <ArrowRight className="h-3 w-3 ml-1" />
+        Deploy Agent <ArrowRight className="h-3 w-3 ml-1" />
       </div>
     </a>
   );
@@ -72,10 +72,10 @@ export default function Agents() {
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
-            Automatización táctica.<br className="hidden md:block" /> Resultados estratégicos.
+            Meet Your New Media & Creative Team
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Acceda gratis a nuestra suite de agentes autónomos. Diseñados para ejecutar tareas repetitivas en segundos, no en horas.
+            Why hire an agency? Deploy our specialized AI agents to execute strategy, media planning, and content creation in seconds.
           </p>
           
           {/* Disclaimer sutil */}
@@ -136,13 +136,13 @@ export default function Agents() {
                 <Rocket className="h-8 w-8" strokeWidth={1.5} /> {/* Reemplazo de 🚀 */}
               </div>
               <h3 className="font-bold text-xl text-white mb-2">
-                ¿Necesitas potencia real?
+                ¿Need a Custom Agent Pipeline?
               </h3>
               <p className="text-sm text-indigo-200 leading-relaxed mb-6">
                 La IA es rápida, pero la estrategia requiere humanos. Hablemos de implementar un sistema a medida.
               </p>
               <span className="inline-flex items-center text-sm font-bold text-indigo-950 bg-indigo-100 hover:bg-white px-5 py-2.5 rounded-lg transition-colors duration-300 ring-1 ring-indigo-200 hover:ring-white">
-                Agendar Consultoría <ArrowRight className="h-4 w-4 ml-2" />
+                Book a Demo <ArrowRight className="h-4 w-4 ml-2" />
               </span>
             </div>
           </a>

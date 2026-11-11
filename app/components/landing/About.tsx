@@ -20,7 +20,7 @@ const teamMembers: TeamMember[] = [
     name: 'Jaime Parra Milic',
     role: 'CEO & Strategy Director',
     icon: <Rocket className="w-4 h-4" />,
-    bio: '13+ años liderando estrategia en Havas e IPG. Ha gestionado portafolios para Amazon, BMW, Nissan, Claro, Liberty Mutual, CVS, Coca-Cola y Huggies. Matemático de formación, experto en marketing digital.',
+    bio: 'CEO & Strategy Director. Current Associate Director of Client Analytics at WPP (Media Futures Group), leading data and analytics initiatives for Google & Android operations. 13+ years engineering growth for Amazon, BMW, and CVS. Mathematician building the multi-agent systems that replace traditional agencies.',
     image: '/jaime.png', 
     linkedin: 'https://www.linkedin.com/in/jaime-parra-milic/' 
   },
