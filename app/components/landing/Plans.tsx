@@ -22,41 +22,41 @@ type Plan = {
 const planTiers: Plan[] = [
   {
     name: 'Data Ingestion & Audit',
-    tagline: 'Para el que duda o quiere probar antes de casarse.',
-    badge: 'Sin Compromiso',
+    tagline: 'Test our data ingestion capabilities before scaling.',
+    badge: 'No Commitment',
     features: [
-      'Diagnóstico profundo de cuentas publicitarias (Meta/Google)',
-      'Análisis forense de estructura de costos y fugas',
-      'Revisión técnica de medición (Píxeles/CAPI)',
-      'Entregable: Plan de Acción Táctico para su equipo',
-      'Ideal para validar la calidad de ODDS sin ataduras',
+      'Deep Automated Audit of ad accounts via Meta & Google API',
+      'Data Forensics across cost structures and budget leaks',
+      'Technical tracking & attribution audit (Pixels/CAPI)',
+      'Deliverable: Algorithmic Action Plan powered by LLM Integration',
+      'Ideal for validating ODDS pipeline accuracy with zero lock-in',
     ],
     buttonText: 'Contact Sales',
   },
   {
     name: 'Full-Cycle AI Agency',
-    tagline: 'Para el que quiere delegar y facturar.',
-    badge: 'Socio de Crecimiento',
+    tagline: 'Full autonomous execution and scaling.',
+    badge: 'Growth Partner',
     featured: true,
     features: [
-      'Ejecución total de campañas con IA + Estrategas Humanos',
-      'Optimización diaria de presupuesto y creativos',
-      'Reuniones de estrategia quincenales',
-      'Reportes de rentabilidad en tiempo real',
-      'Acceso total a nuestro stack tecnológico enterprise',
+      'Full-cycle autonomous campaign execution via multi-agent AI & API',
+      '24/7 Automated budget allocation and dynamic creative optimization',
+      'Bi-weekly strategic calibration and LLM Integration workflows',
+      'Real-time unit economics and profitability telemetry',
+      'Full access to our enterprise MarTech infrastructure stack',
     ],
     buttonText: 'Contact Sales',
   },
   {
     name: 'Enterprise Multi-Agent System',
-    tagline: 'Para marcas que necesitan cerebro, no manos.',
-    badge: 'Solo bajo cupo',
+    tagline: 'For brands needing custom AI architecture.',
+    badge: 'Limited Availability',
     features: [
-      'Intervención estratégica a nivel directivo',
-      'Diseño de modelos de atribución complejos',
-      'Formación y estructuración de su equipo interno',
-      'Estrategias de expansión internacional',
-      'Soporte directo vía Slack/WhatsApp con Dirección',
+      'Executive-level custom AI architecture and pipeline deployment',
+      'Bespoke multi-touch attribution and LLM Integration models',
+      'Direct API orchestration with your internal data warehouse',
+      'Scalable multi-market and international expansion pipelines',
+      'Dedicated Slack/engineering channel with our leadership team',
     ],
     buttonText: 'Contact Sales',
   },
@@ -82,7 +82,7 @@ export default function Plans() {
           Hire Your AI Agency
         </h2>
         <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-          No creemos en las tallas únicas. Elija la velocidad y el nivel de profundidad que su negocio necesita hoy.
+          Choose the autonomous infrastructure level your business needs to scale today.
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default function Plans() {
             {p.featured && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center shadow-md whitespace-nowrap z-20">
                 <Sparkles className="w-3 h-3 mr-1" />
-                Opción Recomendada
+                Recommended
               </div>
             )}
 

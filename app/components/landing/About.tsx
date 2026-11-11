@@ -28,7 +28,7 @@ const teamMembers: TeamMember[] = [
     name: 'Carlos Pinilla, PhD',
     role: 'Head of AI & Science',
     icon: <Brain className="w-4 h-4" />,
-    bio: 'Doctor en Matemáticas (PhD) e Investigador asociado en UCL (Londres). Diseña los modelos probabilísticos que permiten a nuestros clientes invertir con certeza matemática, no por intuición.',
+    bio: 'PhD in Mathematics & Researcher at UCL. Designs the probabilistic models that allow our agents to bid with mathematical certainty.',
     image: '/carlos.jpeg', 
     linkedin: 'https://www.linkedin.com/in/carlos-pinilla-s/'
   },
@@ -36,7 +36,7 @@ const teamMembers: TeamMember[] = [
     name: 'Manuel Oviedo',
     role: 'Head of Performance',
     icon: <LineChart className="w-4 h-4" />,
-    bio: 'Trayectoria en gigantes de medios como IPG, Publicis y Universal. Ha liderado estrategias de inversión para marcas icónicas como Nestlé y LEGO, maximizando el retorno en mercados competitivos.',
+    bio: 'Former IPG & Publicis. Managed enterprise media strategies for brands like Nestlé, now translating that logic into algorithmic workflows.',
     image: '/manuel.jpeg', 
     linkedin: 'https://www.linkedin.com/in/manueloviedo-marketing/'
   },
@@ -44,7 +44,7 @@ const teamMembers: TeamMember[] = [
     name: 'Daniel Restrepo',
     role: 'Head of Operations',
     icon: <Layers className="w-4 h-4" />,
-    bio: 'Arquitecto de procesos con experiencia global. Ha optimizado la eficiencia operativa para marcas como Liberty Mutual, BMW y Amazon. Asegura una ejecución militar y sin fricción para su cuenta.',
+    bio: 'Global process architect. Optimized operations for Liberty Mutual and Amazon. Ensures military-grade execution for our agent pipelines.',
     image: '/daniel.jpeg', 
     linkedin: 'https://www.linkedin.com/in/daniel-restrepo-jimenez-425439194/'
   },
@@ -52,7 +52,7 @@ const teamMembers: TeamMember[] = [
     name: 'Diego Forero',
     role: 'CTO & Tech Lead',
     icon: <Code className="w-4 h-4" />,
-    bio: 'Ex-Technical Lead en RCN. Ingeniero experto en sistemas de alto tráfico. Conecta su ecosistema (Shopify, VTEX) con nuestros modelos de IA para garantizar estabilidad y data en tiempo real.',
+    bio: 'High-traffic systems engineer. Connects your ecosystem (Shopify, VTEX) with our AI models ensuring real-time data flow.',
     image: '/diego.jpeg', 
     linkedin: 'https://www.linkedin.com/in/diego-nicolas-forero/'
   },
@@ -66,10 +66,10 @@ export default function Team() {
         {/* Header de Sección */}
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
-            Un equipo de clase mundial.
+            World-Class Engineers & Strategists.
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            No somos freelancers aprendiendo con su presupuesto. Somos veteranos de la industria que han gestionado la inversión de las marcas más grandes del mundo.
+            Industry veterans who have managed enterprise budgets, now building the AI infrastructure to automate it.
           </p>
         </div>
 
@@ -122,7 +122,7 @@ export default function Team() {
                   className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-[#0077b5] transition-colors"
                 >
                   <Linkedin className="w-4 h-4 mr-2" />
-                  Conectar en LinkedIn
+                  Connect on LinkedIn
                 </a>
               </div>
             </div>

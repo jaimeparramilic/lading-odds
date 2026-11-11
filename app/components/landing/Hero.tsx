@@ -83,7 +83,7 @@ export default function Hero() {
 
           {/* P: COPY SECUNDARIO */}
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl font-normal">
-            We ingest sales data at a <strong className="text-slate-900 font-semibold">person and receipt level</strong> to power our multi-agent platform. ODDS autonomously generates communication strategies, builds dynamic media plans, and optimizes cross-platform campaigns 24/7. The entire media and creative cycle, in one algorithmic ecosystem.
+            We ingest sales data at a <strong className="text-slate-900 font-semibold">person and receipt level</strong> to power our multi-agent platform. ODDS autonomously generates communication strategies, builds dynamic media plans, and optimizes cross-platform campaigns 24/7.
           </p>
 
           {/* CTAs */}
@@ -94,7 +94,7 @@ export default function Hero() {
                 onClick={scrollToCalculator}
                 className="h-14 px-8 text-base font-bold bg-indigo-950 hover:bg-indigo-900 text-white shadow-xl shadow-indigo-900/20 rounded-xl transition-all hover:-translate-y-0.5 w-full sm:w-auto flex items-center justify-center gap-2"
               >
-                Calcular mi Potencial
+                Calculate My Potential
                 <Calculator className="h-5 w-5 text-indigo-200" />
               </Button>
 
@@ -111,7 +111,7 @@ export default function Hero() {
             </div>
             
             <p className="text-xs text-slate-400 font-medium flex items-center gap-1.5 mt-2">
-              <TrendingUp className="h-3.5 w-3.5" /> Proyección basada en datos reales a la derecha
+              <TrendingUp className="h-3.5 w-3.5" /> Live platform projection on the right
             </p>
           </div>
         </motion.div>
@@ -131,7 +131,7 @@ export default function Hero() {
                 <div className="p-2 bg-indigo-100 rounded-lg flex items-center justify-center">
                   <Calculator className="h-5 w-5 text-indigo-700" />
                 </div>
-                Simulador de Impacto
+                Agent-Driven Growth
               </CardTitle>
             </CardHeader>
             
@@ -142,7 +142,7 @@ export default function Hero() {
                 <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                      Inversión (USD)
+                      Ad Spend (USD)
                     </label>
                     <Input
                       type="number"
@@ -153,7 +153,7 @@ export default function Hero() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                      CPA Actual
+                      Current CPA
                     </label>
                     <Input
                       type="number"
@@ -167,10 +167,10 @@ export default function Hero() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center mb-1">
                     <label className="text-xs font-bold text-indigo-900 uppercase tracking-wider">
-                      CPA Optimizado (ODDS)
+                      Optimized CPA (ODDS)
                     </label>
                     <span className="text-[10px] bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold border border-indigo-100 uppercase tracking-wide">
-                      Meta Estimada
+                      Estimated Target
                     </span>
                   </div>
                   <Input
@@ -190,11 +190,11 @@ export default function Hero() {
                 <div className="relative z-10 flex items-end justify-between mb-6">
                   <div>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5">
-                      Agent-Driven Growth
+                      Projected Sales
                     </p>
                     <p className="text-4xl font-bold tracking-tight text-white leading-none">
                       {totalSales.toLocaleString('en-US')} 
-                      <span className="text-base font-medium text-slate-500 ml-1.5">pedidos</span>
+                      <span className="text-base font-medium text-slate-500 ml-1.5">conversions</span>
                     </p>
                   </div>
                   <div className="text-right">
@@ -219,7 +219,7 @@ export default function Hero() {
                 </div>
                 
                 <p className="text-[10px] text-slate-400 text-center font-medium">
-                  Resultados estimados manteniendo su presupuesto actual.
+                  Estimated outcomes maintaining your current ad spend.
                 </p>
               </div>
             </CardContent>

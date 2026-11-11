@@ -11,12 +11,12 @@ export default function Process() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Rocket className="h-5 w-5" /> Diagnóstico express
+              <Rocket className="h-5 w-5" /> Rapid Diagnostic
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm opacity-90">
-            En 72&nbsp;h auditamos campañas, sitio/tienda y datos (GA4, píxeles, UTMs).
-            Entregamos un plan de 5 acciones priorizadas para recuperar ventas.
+            In 72&nbsp;hours we audit your campaigns, storefront, and telemetry (GA4, pixels, UTMs).
+            We deliver a prioritized 5-step algorithmic action plan to recover lost revenue.
           </CardContent>
         </Card>
 
@@ -24,12 +24,12 @@ export default function Process() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LineChart className="h-5 w-5" /> Setup & implementación
+              <LineChart className="h-5 w-5" /> Setup &amp; Integration
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm opacity-90">
-            En 7&nbsp;días dejamos todo funcionando: medición correcta, UTMs consistentes
-            y campañas en Meta/Google listas con creatividades aprobadas.
+            Within 7&nbsp;days everything is live: deterministic attribution, clean UTMs,
+            and Meta/Google campaigns orchestrated with dynamic creatives.
           </CardContent>
         </Card>
 
@@ -37,12 +37,12 @@ export default function Process() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Workflow className="h-5 w-5" /> Optimización mensual
+              <Workflow className="h-5 w-5" /> Autonomous Optimization
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm opacity-90">
-            Ajustes semanales para bajar CPA y subir ROAS. Reporte simple:
-            qué cambiamos, qué funcionó y el siguiente paso.
+            Continuous algorithmic adjustments to lower CPA and scale ROAS. Real-time telemetry:
+            what changed, what scaled, and what comes next.
           </CardContent>
         </Card>
       </div>

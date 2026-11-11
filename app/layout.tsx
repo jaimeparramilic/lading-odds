@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'ODDS Landing',
-  description: 'Performance + AI para ecommerce y servicios',
+  title: 'ODDS | End-to-End Multi-Agent AI Platform',
+  description: 'The full-cycle AI media and creative platform that replaces your agency.',
 };
 
 export default function RootLayout({
@@ -11,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

@@ -16,21 +16,18 @@ export default function Credentials() {
       </div>
 
       {/* Logos */}
-      <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 items-center justify-items-center opacity-80">
-        <Image src="/logos/google.png" alt="Google" width={100} height={40} className="h-10 w-auto" />
-        <Image src="/logos/amazon.png" alt="Amazon" width={100} height={40} className="h-10 w-auto" />
-        <Image src="/logos/bmw.png" alt="BMW" width={100} height={40} className="h-10 w-auto" />
-        <Image src="/logos/cvs.png" alt="CVS" width={100} height={40} className="h-10 w-auto" />
-        <Image src="/logos/nintendo.png" alt="Nintendo" width={100} height={40} className="h-10 w-auto" />
+      <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-6 items-center justify-items-center opacity-80">
+        <Image src="/logos/google.png" alt="Google" width={100} height={40} className="h-10 w-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+        <Image src="/logos/amazon.png" alt="Amazon" width={100} height={40} className="h-10 w-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+        <Image src="/logos/bmw.png" alt="BMW" width={100} height={40} className="h-10 w-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+        <Image src="/logos/cvs.png" alt="CVS" width={100} height={40} className="h-10 w-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
+        <Image src="/logos/nintendo.png" alt="Nintendo" width={100} height={40} className="h-10 w-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300" />
       </div>
 
       {/* Caso destacado */}
       <div className="mt-10 bg-neutral-50 border rounded-xl p-6 shadow-sm text-center">
         <p className="italic text-neutral-700 max-w-2xl mx-auto">
-          “Transformamos la marca personal de Jorge Enrique Abello en un{' '}
-          <strong>activo digital rentable</strong>. Diseñamos <strong>Night Night</strong>, una
-          estrategia de monetización que rompió récords de audiencia y venta en plena
-          crisis global.”
+          “Our multi-agent architecture processes millions of data points daily, turning raw behavioral data into an autonomous, high-converting revenue engine for enterprise brands.”
         </p>
       </div>
     </Section>

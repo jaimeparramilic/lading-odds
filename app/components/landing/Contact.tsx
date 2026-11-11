@@ -68,7 +68,7 @@ export default function Contact() {
           <div className="lg:col-span-5 flex flex-col">
             <div className="inline-flex items-center w-fit rounded-full px-3 py-1 text-xs font-bold text-indigo-300 bg-indigo-900/50 border border-indigo-700/50 mb-6 uppercase tracking-wider">
               <MessageSquare className="w-3 h-3 mr-2" />
-              Contacto Directo
+              Direct Contact
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
@@ -77,25 +77,25 @@ export default function Contact() {
             </h2>
             
             <p className="text-lg text-slate-400 leading-relaxed mb-8">
-              Agenda un diagnóstico gratuito. Te mostramos dónde se pierde tu inversión y proponemos el plan de mayor impacto a corto plazo.
+              Schedule a platform demo. We&apos;ll show you where your ad spend is leaking and how our agents fix it.
             </p>
 
             {/* Lista de beneficios (Reduje el margen inferior mb-8 para acercar el email) */}
             <div className="space-y-3 mb-8 border-l-2 border-slate-800 pl-6">
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" />
-                <span className="text-slate-300 text-sm">Auditoría técnica preliminar incluida</span>
+                <span className="text-slate-300 text-sm">Preliminary technical audit included</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-indigo-400 shrink-0" />
-                <span className="text-slate-300 text-sm">Respuesta en menos de 24h hábiles</span>
+                <span className="text-slate-300 text-sm">Response in under 24 hours</span>
               </div>
             </div>
 
             {/* Email Link (Eliminé mt-auto y pt-8 para quitar el espaciado forzado) */}
             <div>
               <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
-                O escriba directamente a:
+                Or write directly to:
               </p>
               <a 
                 href="mailto:jaime.parra@oddsbots.online" 
@@ -121,15 +121,15 @@ export default function Contact() {
                   <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">¡Mensaje Recibido!</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Request Received!</h3>
                   <p className="text-slate-600 max-w-sm mb-6 leading-relaxed">
-                    Gracias por contactarnos. Analizaremos sus datos y le contactaremos en menos de 24 horas hábiles.
+                    Thank you for reaching out. We will analyze your data and contact you in under 24 business hours.
                   </p>
                   <button 
                     onClick={() => setOk(null)}
                     className="text-indigo-600 font-bold hover:text-indigo-800 text-sm underline underline-offset-4"
                   >
-                    Volver al formulario
+                    Back to form
                   </button>
                 </div>
               ) : (
@@ -138,7 +138,7 @@ export default function Contact() {
                     Request Platform Access
                   </h3>
                   <p className="text-slate-500 text-sm mb-8">
-                    Complete el formulario para calificar a una sesión estratégica.
+                    Complete the form to request platform access.
                   </p>
 
                   <form onSubmit={onSubmit} className="space-y-5">
@@ -147,14 +147,14 @@ export default function Contact() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Nombre completo</label>
+                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Full Name</label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <User className="w-4 h-4" />
                           </div>
                           <input
                             name="name"
-                            placeholder="Nombre"
+                            placeholder="Name"
                             required
                             autoComplete="name"
                             className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
@@ -163,14 +163,14 @@ export default function Contact() {
                       </div>
 
                       <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Empresa</label>
+                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Company</label>
                         <div className="relative">
                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <Building2 className="w-4 h-4" />
                           </div>
                           <input
                             name="company"
-                            placeholder="Empresa (Opcional)"
+                            placeholder="Company (Optional)"
                             autoComplete="organization"
                             className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
                           />
@@ -179,7 +179,7 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Correo corporativo</label>
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Work Email</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                           <Mail className="w-4 h-4" />
@@ -187,7 +187,7 @@ export default function Contact() {
                         <input
                           type="email"
                           name="email"
-                          placeholder="juan@suempresa.com"
+                          placeholder="john@company.com"
                           required
                           autoComplete="email"
                           className="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400"
@@ -196,7 +196,7 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Inversión mensual en pauta</label>
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Monthly Ad Spend</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                           <DollarSign className="w-4 h-4" />
@@ -207,11 +207,11 @@ export default function Contact() {
                           defaultValue=""
                           className="w-full h-11 pl-10 pr-8 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all appearance-none cursor-pointer"
                         >
-                          <option value="" disabled>Seleccione un rango (USD)</option>
+                          <option value="" disabled>Select a range (USD)</option>
                           <option value="400-800">USD 400 – 800</option>
                           <option value="800-1500">USD 800 – 1,500</option>
                           <option value="1500-3000">USD 1,500 – 3,000</option>
-                          <option value="3000+">Más de USD 3,000</option>
+                          <option value="3000+">Over USD 3,000</option>
                         </select>
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
                           <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
@@ -220,11 +220,11 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Objetivo principal</label>
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Primary Objective</label>
                       <textarea
                         name="goal"
                         rows={4}
-                        placeholder="Ej: Necesitamos escalar ventas en e-commerce y mejorar el ROAS..."
+                        placeholder="e.g., We need to scale e-commerce revenue and optimize cross-channel ROAS..."
                         required
                         className="w-full p-4 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-slate-400 resize-none"
                       />
@@ -237,11 +237,11 @@ export default function Contact() {
                     >
                       {loading ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin" /> Procesando...
+                          <Loader2 className="w-4 h-4 animate-spin" /> Processing...
                         </>
                       ) : (
                         <>
-                          Enviar Solicitud <ArrowRight className="w-4 h-4" />
+                          Request Access <ArrowRight className="w-4 h-4" />
                         </>
                       )}
                     </button>
@@ -249,12 +249,12 @@ export default function Contact() {
                     {ok === false && (
                        <div className="p-3 bg-red-50 text-red-600 text-xs rounded-lg flex items-center gap-2 border border-red-100 animate-in fade-in">
                         <AlertCircle className="w-4 h-4 shrink-0" />
-                        Ocurrió un error al conectar. Por favor intente de nuevo o escriba directo al WhatsApp.
+                        Connection error. Please try again or email us directly.
                        </div>
                     )}
 
                     <p className="text-center text-[10px] text-slate-400">
-                      Al enviar acepta ser contactado. Sus datos están protegidos.
+                      By submitting, you agree to be contacted. Your data is protected.
                     </p>
                   </form>
                 </>

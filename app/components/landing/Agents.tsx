@@ -17,8 +17,6 @@ function AgentCard({ title, desc, href, Icon, tag }: AgentCardProps) {
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       // UX: Altura completa (h-full), bordes y sombras índigo en hover para affordance
       className="group relative flex flex-col h-full p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 hover:border-indigo-300 transition-all duration-300 hover:-translate-y-1"
     >
@@ -52,7 +50,7 @@ function AgentCard({ title, desc, href, Icon, tag }: AgentCardProps) {
 
       {/* CTA textual: Aparece en índigo */}
       <div className="mt-5 pt-4 border-t border-slate-50 flex items-center text-xs font-bold text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-2 group-hover:translate-x-0">
-        Deploy Agent <ArrowRight className="h-3 w-3 ml-1" />
+        Book a Demo <ArrowRight className="h-3 w-3 ml-1" />
       </div>
     </a>
   );
@@ -68,7 +66,7 @@ export default function Agents() {
           {/* Pill estilo índigo */}
           <div className="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 bg-indigo-50 mb-4">
             <Sparkles className="h-3.5 w-3.5 mr-1.5 text-indigo-500" />
-            Laboratorio de IA
+            Agent Suite
           </div>
           
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
@@ -80,7 +78,7 @@ export default function Agents() {
           
           {/* Disclaimer sutil */}
           <p className="mt-4 text-xs font-medium text-indigo-900/60 bg-indigo-50/50 px-4 py-1.5 rounded-full border border-indigo-100/30">
-            * En nuestros planes de pago, cada output es supervisado por expertos humanos.
+            * Enterprise SLA includes human-in-the-loop review by ex-Amazon data scientists.
           </p>
         </div>
 
@@ -89,38 +87,38 @@ export default function Agents() {
           
           <AgentCard
             Icon={ScanSearch} // Reemplazo de 🔎
-            title="Auditor de Pauta Ads"
-            desc="Deja de quemar presupuesto. Analiza la matemática de tus campañas y detecta fugas de dinero o estructuras ineficientes al instante."
-            href="https://chatgpt.com/g/g-688f92ce8e00819187bcbbbf446a91bd-diagnostico-de-pauta-by-odds?model=gpt-4o"
-            tag="Popular"
+            title="Ad Account Auditor"
+            desc="Stop burning budget. Mathematically analyze your campaigns and detect leaks instantly."
+            href="#contact"
+            tag="Most Used"
           />
           
           <AgentCard
             Icon={Palette} // Reemplazo de 🎨
-            title="Creador de Visuales"
-            desc="Olvídate del lienzo en blanco. Genera conceptos visuales y copys publicitarios que respetan la identidad de tu marca."
-            href="https://chatgpt.com/g/g-689bb9f9816c8191b22c80499f01fb60-odds-posts-designer"
+            title="Creative Generator"
+            desc="Generate on-brand visual concepts and ad copy autonomously."
+            href="#contact"
           />
           
           <AgentCard
             Icon={MonitorCheck} // Reemplazo de 💻
-            title="Analista de Conversión"
-            desc="Tu web, ¿vende o espanta? Recibe una auditoría UX/UI brutalmente honesta con mejoras estructurales para aumentar tu tasa de conversión."
-            href="https://chatgpt.com/g/g-689bbee75ff08191b061126601feb3c7-asesor-creacion-webs-y-landings?model=gpt-4o"
+            title="Conversion Analyst"
+            desc="Receive a brutally honest UX/UI audit with structural improvements to increase conversion rates."
+            href="#contact"
           />
           
           <AgentCard
             Icon={TrendingUp} // Reemplazo de 📊
-            title="Diagnóstico de Escala"
-            desc="Evalúa con frialdad si tu infraestructura actual soporta el crecimiento o si colapsará al intentar vender más. Datos, no opiniones."
-            href="https://chatgpt.com/g/g-68a89659f9548191ba2e4f9311dac4a5-marketing-digital-diagnostico-de-madurez-digital"
+            title="Scale Diagnostic"
+            desc="Evaluate if your current infrastructure can support hyper-growth."
+            href="#contact"
           />
           
           <AgentCard
             Icon={PenLine} // Reemplazo de ✍️
-            title="Redactor B2B (LinkedIn)"
-            desc="Posiciónate como autoridad. Estructura y redacta contenido técnico optimizado para generar leads cualificados en LinkedIn."
-            href="https://chatgpt.com/g/g-689bb9f9816c8191b22c80499f01fb60-odds-posts-designer"
+            title="B2B Copywriter"
+            desc="Structure and draft technical content optimized for B2B lead generation."
+            href="#contact"
           />
           
           {/* Tarjeta CTA: Índigo profundo sólido */}
@@ -136,10 +134,10 @@ export default function Agents() {
                 <Rocket className="h-8 w-8" strokeWidth={1.5} /> {/* Reemplazo de 🚀 */}
               </div>
               <h3 className="font-bold text-xl text-white mb-2">
-                ¿Need a Custom Agent Pipeline?
+                Need a Custom Agent Pipeline?
               </h3>
               <p className="text-sm text-indigo-200 leading-relaxed mb-6">
-                La IA es rápida, pero la estrategia requiere humanos. Hablemos de implementar un sistema a medida.
+                Let's build a customized multi-agent architecture for your enterprise.
               </p>
               <span className="inline-flex items-center text-sm font-bold text-indigo-950 bg-indigo-100 hover:bg-white px-5 py-2.5 rounded-lg transition-colors duration-300 ring-1 ring-indigo-200 hover:ring-white">
                 Book a Demo <ArrowRight className="h-4 w-4 ml-2" />

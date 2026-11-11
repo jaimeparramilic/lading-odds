@@ -36,13 +36,16 @@ export default function Services() {
           <CardContent className="p-6 md:p-8">
             <ul className="space-y-4">
               <CheckItem>
-                Ingest deterministic sales data at a person and receipt level
+                <strong>Deep Algorithmic Audit:</strong> We audit your financial health and ad accounts at a deterministic level.
               </CheckItem>
               <CheckItem>
-                Real-time automated auditing of ad accounts
+                We detect <strong>predictive budget leaks</strong> and structural anomalies that human teams miss.
               </CheckItem>
               <CheckItem>
-                Profitability analysis driven by LLMs
+                <strong>Data Forensics:</strong> We validate pixel integrity to measure actual receipt-level sales.
+              </CheckItem>
+              <CheckItem>
+                <strong>Deliverable:</strong> A strategic pipeline designed to recover wasted ad spend and scale autonomously.
               </CheckItem>
             </ul>
           </CardContent>
@@ -65,13 +68,16 @@ export default function Services() {
           <CardContent className="p-6 md:p-8">
             <ul className="space-y-4">
               <CheckItem>
-                Automated generation of communication strategies
+                Advanced technical deployment without you writing a single line of code.
               </CheckItem>
               <CheckItem>
-                Dynamic creation of ad creatives and web content
+                Automated generation of communication strategies and high-impact ad creatives.
               </CheckItem>
               <CheckItem>
-                Native integrations with Shopify, VTEX, and CMS
+                Native integrations with Shopify, VTEX, and enterprise CMS platforms.
+              </CheckItem>
+              <CheckItem>
+                Dynamic creation of ad creatives and web content validated by <strong>market intelligence</strong>.
               </CheckItem>
             </ul>
           </CardContent>
@@ -91,13 +97,16 @@ export default function Services() {
           <CardContent className="p-6 md:p-8">
             <ul className="space-y-4">
               <CheckItem>
-                Instant generation of cross-platform media plans
+                Instant generation of cross-platform media plans and algorithmic bidding.
               </CheckItem>
               <CheckItem>
-                24/7 algorithmic campaign optimization
+                24/7 algorithmic campaign optimization working aggressively to lower your CPA.
               </CheckItem>
               <CheckItem>
-                Direct API connections to Meta and Google Ads
+                Direct API connections to Meta and Google Ads with real-time quantitative reporting.
+              </CheckItem>
+              <CheckItem>
+                We replace your performance marketing agency. <strong>Zero headcount, zero overhead.</strong>
               </CheckItem>
             </ul>
           </CardContent>
