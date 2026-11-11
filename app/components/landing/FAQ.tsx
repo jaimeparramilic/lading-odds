@@ -50,7 +50,7 @@ export default function FAQ() {
     <Section id="faq" className="py-12">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold tracking-tight">Frequently Asked Questions</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 md:grid-cols-2 items-start">
           {faqs.map((f, i) => (
             <FAQItemComponent key={i} {...f} />
           ))}
