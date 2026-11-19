@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   if (host === 'app.oddsbots.online' || host.startsWith('app.')) {
     if (pathname === '/') {
       const url = request.nextUrl.clone();
-      url.pathname = '/terms';
+      url.pathname = '/app-home';
       return NextResponse.rewrite(url);
     }
   }

@@ -631,8 +631,8 @@ export function LegalShell({
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <a
-                  href="https://oddsbots.online"
+                <Link
+                  href="/"
                   className="relative h-12 md:h-14 flex-shrink-0 flex items-center no-underline hover:no-underline"
                 >
                   <Image
@@ -643,19 +643,19 @@ export function LegalShell({
                     className="h-full w-auto object-contain rounded-lg"
                     priority
                   />
-                </a>
+                </Link>
                 <Pill className="bg-white border-slate-200 shadow-sm text-slate-600 text-xs md:text-sm py-1.5 px-4">
                   ODDS Agents · Legal &amp; Compliance
                 </Pill>
               </div>
 
-              <a
-                href="https://oddsbots.online"
+              <Link
+                href="/"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-indigo-900 bg-white border border-slate-200 hover:border-indigo-200 px-4 py-2 rounded-xl shadow-sm transition-all no-underline hover:no-underline w-fit"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to ODDS
-              </a>
+              </Link>
             </div>
 
             <div className="space-y-4">
