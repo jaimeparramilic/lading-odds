@@ -16,6 +16,21 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  if (
+    host === 'mev.oddsbots.online' ||
+    host === 'mev.oddsbots.com' ||
+    host === 'mvp.oddsbots.online' ||
+    host === 'mvp.oddsbots.com' ||
+    host.startsWith('mev.') ||
+    host.startsWith('mvp.')
+  ) {
+    if (pathname === '/') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/quant';
+      return NextResponse.rewrite(url);
+    }
+  }
+
   return NextResponse.next();
 }
 
